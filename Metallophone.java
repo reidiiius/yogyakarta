@@ -1,13 +1,13 @@
 package yogyakarta;
 
-import java.util.Hashtable;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Metallophone {
 
     public static void main(String[] args) {
 
-        Hashtable<String, String> db = new Hashtable<String, String>();
+        TreeMap<String, String> db = new TreeMap<String, String>();
 db.put("j136y7",  "____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
 db.put("j167y2",  "HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");
 db.put("j17k2",   "____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb TiCu FeMn ");
@@ -116,7 +116,7 @@ db.put("n6x2",    "FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ "
             String Bn = qp.substring(55, 60) + qp.substring( 0, 55);
 
             System.out.println('\n');
-            System.out.println('\t' + ks + "-beadgcf-v" + serial); 
+            System.out.println('\t' + ks + "-beadgcf-sv" + serial); 
             System.out.println('\t' + Fn);
             System.out.println('\t' + Cn);
             System.out.println('\t' + Gn);
