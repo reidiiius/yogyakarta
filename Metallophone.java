@@ -7,7 +7,9 @@ public class Metallophone {
 
     public static void main(String[] args) {
 
-        TreeMap<String, String> db = new TreeMap<String, String>();
+        TreeMap<String, String> db;
+        db = new TreeMap<String, String>();
+
 db.put("j136y7",  "____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
 db.put("j167y2",  "HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");
 db.put("j17k2",   "____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb TiCu FeMn ");
@@ -92,21 +94,30 @@ db.put("n5y2",    "HgMn ____ ____ MnHg CuFe ____ ____ AuNp NpAu ____ TiPb FeCu "
 db.put("n67x2",   "____ AuUr ____ ____ TiHg FeFe HgTi ____ SnNp UrAu ____ PbPb ");
 db.put("n6x2",    "FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ ");
 
-        String ks, qp;
-        long serial = System.currentTimeMillis();
+        String ndx, qp;
+        long srl = System.currentTimeMillis();
 
         if (args.length > 0) {
-            ks = args[0];
-            qp = db.get(ks);
+            ndx = args[0];
+            if (db.containsKey(ndx)) {
+                qp = db.get(ndx);
+            } else {
+                qp = "";
+            }
         }
         else {
             Scanner npt = new Scanner(System.in);
-            System.out.print("\nSignature: ");
-            ks = npt.nextLine();
-            qp = db.get(ks);
+            System.out.print("\nSelect: ");
+            ndx = npt.nextLine();
+            if (db.containsKey(ndx)) {
+                qp = db.get(ndx);
+            } else {
+                qp = "";
+            }
         }
 
-        if (qp != null) {
+        if (qp != null && qp.length() >= 60) {
+            String Bj = qp.substring(50, 60) + qp.substring( 0, 50);
             String Fn = qp.substring(25, 60) + qp.substring( 0, 25);
             String Cn = qp.substring( 0, 60);
             String Gn = qp.substring(35, 60) + qp.substring( 0, 35);
@@ -114,9 +125,10 @@ db.put("n6x2",    "FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ "
             String An = qp.substring(45, 60) + qp.substring( 0, 45);
             String En = qp.substring(20, 60) + qp.substring( 0, 20);
             String Bn = qp.substring(55, 60) + qp.substring( 0, 55);
+            String Fk = qp.substring(30, 60) + qp.substring( 0, 30);
 
             System.out.println('\n');
-            System.out.println('\t' + ks + "-beadgcf-sv" + serial); 
+            System.out.println('\t' + ndx + "-beadgcf-sv" + srl); 
             System.out.println('\t' + Fn);
             System.out.println('\t' + Cn);
             System.out.println('\t' + Gn);
@@ -128,16 +140,21 @@ db.put("n6x2",    "FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ "
         }
         else {
             System.out.println();
-            int heptacycles = 1;
-            for (String signat : db.keySet()) {
-                System.out.print('\t' + signat);
-                if (heptacycles % 7 == 0) {
+            int field = 1;
+            for (String item : db.keySet()) {
+                System.out.print('\t' + item);
+                if (field % 7 == 0) {
                     System.out.print('\n');
                 } 
-                heptacycles++;
+                field++;
             }
             System.out.println('\n');
         }
+
+        srl = 0;
+        qp = null;
+        ndx = null;
+        db.clear();
     }
 }
 

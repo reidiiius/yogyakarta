@@ -16,6 +16,8 @@ command line
 
     java yogyakarta.Metallophone n0
 
+    java yogyakarta.Metallophone ?
+
 ---
 
 ### Distribution
