@@ -5,11 +5,153 @@ import java.util.TreeMap;
 
 public class Metallophone {
 
+    private static TreeMap<String, String> db = new TreeMap<String, String>();
+
+    private static long srl = System.currentTimeMillis();
+
     public static void main(String[] args) {
+        String ndx, qp;
 
-        TreeMap<String, String> db;
-        db = new TreeMap<String, String>();
+        initializeDataBank();
 
+        // check for user input data
+        if (args.length > 0) {
+            ndx = args[0];
+            if (db.containsKey(ndx)) {
+                qp = db.get(ndx);
+            } else {
+                qp = "";
+            }
+        }
+        else {  // prompt user for input data
+            Scanner npt = new Scanner(System.in);
+            System.out.print("\nSelect: ");
+            ndx = npt.nextLine();
+            if (db.containsKey(ndx)) {
+                qp = db.get(ndx);
+            } else {
+                qp = "";
+            }
+        }
+
+        // display processed fingerboard data
+        if (qp != null && qp.length() >= 60) {
+            System.out.println('\n');
+            eadgbe(ndx, qp);  // Guitar view
+            System.out.println('\n');
+            cgdae(ndx, qp);   // Cello view
+            System.out.println('\n');
+        }
+        else {  // build and display menu
+            System.out.println();
+            int field = 1;
+            for (String item : db.keySet()) {
+                System.out.print('\t' + item);
+                if (field % 7 == 0) {
+                    System.out.print('\n');
+                } 
+                field++;
+            }
+            System.out.println('\n');
+        }
+        db.clear();
+    }
+
+    // headstock subroutines
+    private static String Bj(String qp) {
+        return qp.substring(50, 60) + qp.substring( 0, 50);
+    }
+
+    private static String Fn(String qp) {
+        return qp.substring(25, 60) + qp.substring( 0, 25);
+    }
+
+    private static String Cn(String qp) {
+        return qp.substring( 0, 60);
+    }
+
+    private static String Gn(String qp) {
+        return qp.substring(35, 60) + qp.substring( 0, 35);
+    }
+
+    private static String Dn(String qp) {
+        return qp.substring(10, 60) + qp.substring( 0, 10);
+    }
+
+    private static String An(String qp) {
+        return qp.substring(45, 60) + qp.substring( 0, 45);
+    }
+
+    private static String En(String qp) {
+        return qp.substring(20, 60) + qp.substring( 0, 20);
+    }
+
+    private static String Bn(String qp) {
+        return qp.substring(55, 60) + qp.substring( 0, 55);
+    }
+
+    private static String Fk(String qp) {
+        return qp.substring(30, 60) + qp.substring( 0, 30);
+    }
+
+    // chordophone scordatura procedures
+    private static void beadgcf(String ndx, String qp) {
+        String[] tuning = {Fn(qp), Cn(qp), Gn(qp), Dn(qp), An(qp), En(qp), Bn(qp)};
+        System.out.println('\t' + ndx + "-beadgcf-sv" + srl);
+        for (String pitch : tuning) {
+            System.out.println('\t' + pitch);
+        }
+    }
+
+    private static void bfbfb(String ndx, String qp) {
+        String[] tuning = {Bn(qp), Fn(qp), Bn(qp), Fn(qp), Bn(qp)};
+        System.out.println('\t' + ndx + "-bfbfb-sv" + srl);
+        for (String pitch : tuning) {
+            System.out.println('\t' + pitch);
+        }
+    }
+
+    private static void cgdae(String ndx, String qp) {
+        String[] tuning = {En(qp), An(qp), Dn(qp), Gn(qp), Cn(qp)};
+        System.out.println('\t' + ndx + "-cgdae-sv" + srl); 
+        for (String pitch : tuning) {
+            System.out.println('\t' + pitch);
+        }
+    }
+
+    private static void dadgad(String ndx, String qp) {
+        String[] tuning = {Dn(qp), An(qp), Gn(qp), Dn(qp), An(qp), Dn(qp)};
+        System.out.println('\t' + ndx + "-dadgad-sv" + srl);
+        for (String pitch : tuning) {
+            System.out.println('\t' + pitch);
+        }
+    }
+
+    private static void dgdgbd(String ndx, String qp) {
+        String[] tuning = {Dn(qp), Bn(qp), Gn(qp), Dn(qp), Gn(qp), Dn(qp)};
+        System.out.println('\t' + ndx + "-dgdgbd-sv" + srl);
+        for (String pitch : tuning) {
+            System.out.println('\t' + pitch);
+        }
+    }
+
+    private static void eadgbe(String ndx, String qp) {
+        String[] tuning = {En(qp), Bn(qp), Gn(qp), Dn(qp), An(qp), En(qp)};
+        System.out.println('\t' + ndx + "-eadgbe-sv" + srl);
+        for (String pitch : tuning) {
+            System.out.println('\t' + pitch);
+        }
+    }
+
+    private static void fkbjdn(String ndx, String qp) {
+        String[] tuning = {Dn(qp), Bj(qp), Fk(qp), Dn(qp), Bj(qp), Fk(qp)};
+        System.out.println('\t' + ndx + "-fkbjdn-sv" + srl);
+        for (String pitch : tuning) {
+            System.out.println('\t' + pitch);
+        }
+    }
+
+    private static void initializeDataBank() {
 db.put("j136y7",  "____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
 db.put("j167y2",  "HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");
 db.put("j17k2",   "____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb TiCu FeMn ");
@@ -93,68 +235,6 @@ db.put("n45y2",   "HgTi ____ ____ UrAu ____ PbPb ____ AuUr NpSn ____ TiHg FeFe "
 db.put("n5y2",    "HgMn ____ ____ MnHg CuFe ____ ____ AuNp NpAu ____ TiPb FeCu ");
 db.put("n67x2",   "____ AuUr ____ ____ TiHg FeFe HgTi ____ SnNp UrAu ____ PbPb ");
 db.put("n6x2",    "FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ ");
-
-        String ndx, qp;
-        long srl = System.currentTimeMillis();
-
-        if (args.length > 0) {
-            ndx = args[0];
-            if (db.containsKey(ndx)) {
-                qp = db.get(ndx);
-            } else {
-                qp = "";
-            }
-        }
-        else {
-            Scanner npt = new Scanner(System.in);
-            System.out.print("\nSelect: ");
-            ndx = npt.nextLine();
-            if (db.containsKey(ndx)) {
-                qp = db.get(ndx);
-            } else {
-                qp = "";
-            }
-        }
-
-        if (qp != null && qp.length() >= 60) {
-            String Bj = qp.substring(50, 60) + qp.substring( 0, 50);
-            String Fn = qp.substring(25, 60) + qp.substring( 0, 25);
-            String Cn = qp.substring( 0, 60);
-            String Gn = qp.substring(35, 60) + qp.substring( 0, 35);
-            String Dn = qp.substring(10, 60) + qp.substring( 0, 10);
-            String An = qp.substring(45, 60) + qp.substring( 0, 45);
-            String En = qp.substring(20, 60) + qp.substring( 0, 20);
-            String Bn = qp.substring(55, 60) + qp.substring( 0, 55);
-            String Fk = qp.substring(30, 60) + qp.substring( 0, 30);
-
-            System.out.println('\n');
-            System.out.println('\t' + ndx + "-beadgcf-sv" + srl); 
-            System.out.println('\t' + Fn);
-            System.out.println('\t' + Cn);
-            System.out.println('\t' + Gn);
-            System.out.println('\t' + Dn);
-            System.out.println('\t' + An);
-            System.out.println('\t' + En);
-            System.out.println('\t' + Bn);
-            System.out.println('\n');
-        }
-        else {
-            System.out.println();
-            int field = 1;
-            for (String item : db.keySet()) {
-                System.out.print('\t' + item);
-                if (field % 7 == 0) {
-                    System.out.print('\n');
-                } 
-                field++;
-            }
-            System.out.println('\n');
-        }
-
-        srl = 0;
-        qp = null;
-        ndx = null;
-        db.clear();
     }
 }
 
