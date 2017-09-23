@@ -5,20 +5,28 @@ import java.util.TreeMap;
 
 public class Metallophone {
 
-    private static TreeMap<String, String> db = new TreeMap<String, String>();
+    private static TreeMap<String, String> db;
+    private static long srl;
 
-    private static long srl = System.currentTimeMillis();
+    public Metallophone() {
+        db = new TreeMap<String, String>();
+        srl = System.currentTimeMillis();
+    }
 
     public static void main(String[] args) {
         String ndx, qp;
 
-        initializeDataBank();
+        // initialize treemap and timestamp
+        Metallophone svara = new Metallophone();
+
+        // populate treemap
+        populateDataBank();
 
         // check for user input data
         if (args.length > 0) {
             ndx = args[0];
-            if (db.containsKey(ndx)) {
-                qp = db.get(ndx);
+            if (svara.db.containsKey(ndx)) {
+                qp = svara.db.get(ndx);
             } else {
                 qp = "";
             }
@@ -27,8 +35,8 @@ public class Metallophone {
             Scanner npt = new Scanner(System.in);
             System.out.print("\nSelect: ");
             ndx = npt.nextLine();
-            if (db.containsKey(ndx)) {
-                qp = db.get(ndx);
+            if (svara.db.containsKey(ndx)) {
+                qp = svara.db.get(ndx);
             } else {
                 qp = "";
             }
@@ -37,15 +45,15 @@ public class Metallophone {
         // display processed fingerboard data
         if (qp != null && qp.length() >= 60) {
             System.out.println('\n');
-            eadgbe(ndx, qp);  // Guitar view
+            eadgbe(ndx, qp, svara.srl);  // Guitar view
             System.out.println('\n');
-            cgdae(ndx, qp);   // Cello view
+            cgdae(ndx, qp, svara.srl);   // Cello view
             System.out.println('\n');
         }
         else {  // build and display menu
             System.out.println();
             int field = 1;
-            for (String item : db.keySet()) {
+            for (String item : svara.db.keySet()) {
                 System.out.print('\t' + item);
                 if (field % 7 == 0) {
                     System.out.print('\n');
@@ -54,7 +62,7 @@ public class Metallophone {
             }
             System.out.println('\n');
         }
-        db.clear();
+        svara.db.clear();
     }
 
     // headstock subroutines
@@ -95,63 +103,63 @@ public class Metallophone {
     }
 
     // chordophone scordatura procedures
-    private static void beadgcf(String ndx, String qp) {
+    private static void beadgcf(String ndx, String qp, long utm) {
         String[] tuning = {Fn(qp), Cn(qp), Gn(qp), Dn(qp), An(qp), En(qp), Bn(qp)};
-        System.out.println('\t' + ndx + "-beadgcf-sv" + srl);
+        System.out.println('\t' + ndx + "-beadgcf-sv" + utm);
         for (String pitch : tuning) {
             System.out.println('\t' + pitch);
         }
     }
 
-    private static void bfbfb(String ndx, String qp) {
+    private static void bfbfb(String ndx, String qp, long utm) {
         String[] tuning = {Bn(qp), Fn(qp), Bn(qp), Fn(qp), Bn(qp)};
-        System.out.println('\t' + ndx + "-bfbfb-sv" + srl);
+        System.out.println('\t' + ndx + "-bfbfb-sv" + utm);
         for (String pitch : tuning) {
             System.out.println('\t' + pitch);
         }
     }
 
-    private static void cgdae(String ndx, String qp) {
+    private static void cgdae(String ndx, String qp, long utm) {
         String[] tuning = {En(qp), An(qp), Dn(qp), Gn(qp), Cn(qp)};
-        System.out.println('\t' + ndx + "-cgdae-sv" + srl); 
+        System.out.println('\t' + ndx + "-cgdae-sv" + utm); 
         for (String pitch : tuning) {
             System.out.println('\t' + pitch);
         }
     }
 
-    private static void dadgad(String ndx, String qp) {
+    private static void dadgad(String ndx, String qp, long utm) {
         String[] tuning = {Dn(qp), An(qp), Gn(qp), Dn(qp), An(qp), Dn(qp)};
-        System.out.println('\t' + ndx + "-dadgad-sv" + srl);
+        System.out.println('\t' + ndx + "-dadgad-sv" + utm);
         for (String pitch : tuning) {
             System.out.println('\t' + pitch);
         }
     }
 
-    private static void dgdgbd(String ndx, String qp) {
+    private static void dgdgbd(String ndx, String qp, long utm) {
         String[] tuning = {Dn(qp), Bn(qp), Gn(qp), Dn(qp), Gn(qp), Dn(qp)};
-        System.out.println('\t' + ndx + "-dgdgbd-sv" + srl);
+        System.out.println('\t' + ndx + "-dgdgbd-sv" + utm);
         for (String pitch : tuning) {
             System.out.println('\t' + pitch);
         }
     }
 
-    private static void eadgbe(String ndx, String qp) {
+    private static void eadgbe(String ndx, String qp, long utm) {
         String[] tuning = {En(qp), Bn(qp), Gn(qp), Dn(qp), An(qp), En(qp)};
-        System.out.println('\t' + ndx + "-eadgbe-sv" + srl);
+        System.out.println('\t' + ndx + "-eadgbe-sv" + utm);
         for (String pitch : tuning) {
             System.out.println('\t' + pitch);
         }
     }
 
-    private static void fkbjdn(String ndx, String qp) {
+    private static void fkbjdn(String ndx, String qp, long utm) {
         String[] tuning = {Dn(qp), Bj(qp), Fk(qp), Dn(qp), Bj(qp), Fk(qp)};
-        System.out.println('\t' + ndx + "-fkbjdn-sv" + srl);
+        System.out.println('\t' + ndx + "-fkbjdn-sv" + utm);
         for (String pitch : tuning) {
             System.out.println('\t' + pitch);
         }
     }
 
-    private static void initializeDataBank() {
+    private static void populateDataBank() {
 db.put("j136y7",  "____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
 db.put("j167y2",  "HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");
 db.put("j17k2",   "____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb TiCu FeMn ");
