@@ -10,13 +10,21 @@ Chequered Notation
 ---
 
 ### Usage
-command line
+Command-line
 
     javac yogyakarta/Metallophone.java
 
-    java yogyakarta.Metallophone n0
+:
 
     java yogyakarta.Metallophone ?
+
+:
+
+    java yogyakarta.Metallophone n0
+
+:
+
+    java yogyakarta.Metallophone
 
 ---
 
