@@ -6,54 +6,56 @@ import java.util.TreeMap;
 public class Metallophone {
 
     private static TreeMap<String, String> db;
-    private static long srl;
+    private static long aeon;
 
     public Metallophone() {
         db = new TreeMap<String, String>();
-        srl = System.currentTimeMillis();
+        aeon = System.currentTimeMillis();
     }
 
     public static void main(String[] args) {
-        String ndx, wire;
+        String sign, wire;
 
         // initialize treemap and timestamp
-        Metallophone svara = new Metallophone();
+        Metallophone kettle = new Metallophone();
 
         // populate treemap
         populateDataBank();
 
         // check for user input data
         if (args.length > 0) {
-            ndx = args[0];
-            if (svara.db.containsKey(ndx)) {
-                wire = svara.db.get(ndx);
+            sign = args[0];
+            if (kettle.db.containsKey(sign)) {
+                wire = kettle.db.get(sign);
             } else {
                 wire = "";
             }
         }
         else {  // prompt user for input data
-            Scanner npt = new Scanner(System.in);
+            Scanner depot = new Scanner(System.in);
             System.out.print("\nSelect: ");
-            ndx = npt.nextLine();
-            if (svara.db.containsKey(ndx)) {
-                wire = svara.db.get(ndx);
+            sign = depot.nextLine();
+            if (kettle.db.containsKey(sign)) {
+                wire = kettle.db.get(sign);
             } else {
                 wire = "";
             }
         }
 
-        // display processed fingerboard data
+        // arrange matrices
         if (wire != null && wire.length() >= 60) {
             System.out.println('\n');
-            eadgbe(ndx, wire, svara.srl);  // Guitar view
+            eadgbe(sign, wire, kettle.aeon);  // Guitar view
+
             System.out.println('\n');
-            cgdae(ndx, wire, svara.srl);   // Cello view
+            cgdae(sign, wire, kettle.aeon);   // Cello view
+
             System.out.println('\n');
         }
         else {  // build and display menu
             System.out.println();
-            int field = 1;
-            for (String item : svara.db.keySet()) {
+            short field = 1;
+            for (String item : kettle.db.keySet()) {
                 System.out.print('\t' + item);
                 if (field % 7 == 0) {
                     System.out.print('\n');
@@ -62,101 +64,122 @@ public class Metallophone {
             }
             System.out.println('\n');
         }
-        svara.db.clear();
+        kettle.db.clear();
+    }
+
+    // display fingerboard
+    private static void format(String diadem, String[] tuning) {
+        System.out.println('\t' + diadem);
+        for (String crow : tuning) {
+            System.out.println('\t' + crow);
+        }
     }
 
     // headstock subroutines
-    private static String Bj(String wire) {
+    private static String sBj(String wire) {
         return wire.substring(50, 60) + wire.substring( 0, 50);
     }
 
-    private static String Fn(String wire) {
+    private static String sFn(String wire) {
         return wire.substring(25, 60) + wire.substring( 0, 25);
     }
 
-    private static String Cn(String wire) {
+    private static String sCn(String wire) {
         return wire.substring( 0, 60);
     }
 
-    private static String Gn(String wire) {
+    private static String sGn(String wire) {
         return wire.substring(35, 60) + wire.substring( 0, 35);
     }
 
-    private static String Dn(String wire) {
+    private static String sDn(String wire) {
         return wire.substring(10, 60) + wire.substring( 0, 10);
     }
 
-    private static String An(String wire) {
+    private static String sAn(String wire) {
         return wire.substring(45, 60) + wire.substring( 0, 45);
     }
 
-    private static String En(String wire) {
+    private static String sEn(String wire) {
         return wire.substring(20, 60) + wire.substring( 0, 20);
     }
 
-    private static String Bn(String wire) {
+    private static String sBn(String wire) {
         return wire.substring(55, 60) + wire.substring( 0, 55);
     }
 
-    private static String Fk(String wire) {
+    private static String sFk(String wire) {
         return wire.substring(30, 60) + wire.substring( 0, 30);
     }
 
-    // chordophone scordatura procedures
-    private static void beadgcf(String ndx, String wire, long utm) {
-        String[] tuning = {Fn(wire), Cn(wire), Gn(wire), Dn(wire), An(wire), En(wire), Bn(wire)};
-        System.out.println('\t' + ndx + "-beadgcf-sv" + utm);
-        for (String pitch : tuning) {
-            System.out.println('\t' + pitch);
-        }
+    // composition procedures
+    private static void beadgcf(String sign, String wire, long epoch) {
+        String diadem = sign + "-beadgcf-sv" + epoch;
+        String[] tuning = {
+          sFn(wire),
+          sCn(wire),
+          sGn(wire),
+          sDn(wire),
+          sAn(wire),
+          sEn(wire),
+          sBn(wire)
+        };
+
+        format(diadem, tuning);
     }
 
-    private static void bfbfb(String ndx, String wire, long utm) {
-        String[] tuning = {Bn(wire), Fn(wire), Bn(wire), Fn(wire), Bn(wire)};
-        System.out.println('\t' + ndx + "-bfbfb-sv" + utm);
-        for (String pitch : tuning) {
-            System.out.println('\t' + pitch);
-        }
+    private static void bfbfb(String sign, String wire, long epoch) {
+        String diadem = sign + "-bfbfb-sv" + epoch;
+        String[] tuning = {
+          sBn(wire), sFn(wire), sBn(wire), sFn(wire), sBn(wire)
+        };
+
+        format(diadem, tuning);
     }
 
-    private static void cgdae(String ndx, String wire, long utm) {
-        String[] tuning = {En(wire), An(wire), Dn(wire), Gn(wire), Cn(wire)};
-        System.out.println('\t' + ndx + "-cgdae-sv" + utm); 
-        for (String pitch : tuning) {
-            System.out.println('\t' + pitch);
-        }
+    private static void cgdae(String sign, String wire, long epoch) {
+        String diadem = sign + "-cgdae-sv" + epoch;
+        String[] tuning = {
+          sEn(wire), sAn(wire), sDn(wire), sGn(wire), sCn(wire)
+        };
+
+        format(diadem, tuning);
     }
 
-    private static void dadgad(String ndx, String wire, long utm) {
-        String[] tuning = {Dn(wire), An(wire), Gn(wire), Dn(wire), An(wire), Dn(wire)};
-        System.out.println('\t' + ndx + "-dadgad-sv" + utm);
-        for (String pitch : tuning) {
-            System.out.println('\t' + pitch);
-        }
+    private static void dadgad(String sign, String wire, long epoch) {
+        String diadem = sign + "-dadgad-sv" + epoch;
+        String[] tuning = {
+          sDn(wire), sAn(wire), sGn(wire), sDn(wire), sAn(wire), sDn(wire)
+        };
+
+        format(diadem, tuning);
     }
 
-    private static void dgdgbd(String ndx, String wire, long utm) {
-        String[] tuning = {Dn(wire), Bn(wire), Gn(wire), Dn(wire), Gn(wire), Dn(wire)};
-        System.out.println('\t' + ndx + "-dgdgbd-sv" + utm);
-        for (String pitch : tuning) {
-            System.out.println('\t' + pitch);
-        }
+    private static void dgdgbd(String sign, String wire, long epoch) {
+        String diadem = sign + "-dgdgbd-sv" + epoch;
+        String[] tuning = {
+          sDn(wire), sBn(wire), sGn(wire), sDn(wire), sGn(wire), sDn(wire)
+        };
+
+        format(diadem, tuning);
     }
 
-    private static void eadgbe(String ndx, String wire, long utm) {
-        String[] tuning = {En(wire), Bn(wire), Gn(wire), Dn(wire), An(wire), En(wire)};
-        System.out.println('\t' + ndx + "-eadgbe-sv" + utm);
-        for (String pitch : tuning) {
-            System.out.println('\t' + pitch);
-        }
+    private static void eadgbe(String sign, String wire, long epoch) {
+        String diadem = sign + "-eadgbe-sv" + epoch;
+        String[] tuning = {
+          sEn(wire), sBn(wire), sGn(wire), sDn(wire), sAn(wire), sEn(wire)
+        };
+
+        format(diadem, tuning);
     }
 
-    private static void fkbjdn(String ndx, String wire, long utm) {
-        String[] tuning = {Dn(wire), Bj(wire), Fk(wire), Dn(wire), Bj(wire), Fk(wire)};
-        System.out.println('\t' + ndx + "-fkbjdn-sv" + utm);
-        for (String pitch : tuning) {
-            System.out.println('\t' + pitch);
-        }
+    private static void fkbjdn(String sign, String wire, long epoch) {
+        String diadem = sign + "-fkbjdn-sv" + epoch;
+        String[] tuning = {
+          sDn(wire), sBj(wire), sFk(wire), sDn(wire), sBj(wire), sFk(wire)
+        };
+
+        format(diadem, tuning);
     }
 
     private static void populateDataBank() {
