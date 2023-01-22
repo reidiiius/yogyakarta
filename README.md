@@ -12,19 +12,27 @@ Chequered Notation
 ### Usage
 Command-line
 
-    javac yogyakarta/Metallophone.java
+    javac yogyakarta/*.java
 
 :
 
-    java yogyakarta.Metallophone ?
+    java yogyakarta.Vestibule
 
 :
 
-    java yogyakarta.Metallophone n0
+    java yogyakarta.Vestibule n0
 
 :
 
-    java yogyakarta.Metallophone
+    java yogyakarta.Vestibule k6 j5
+
+:
+
+    jar cfm kelapa.jar yogyakarta/Manifest.txt yogyakarta/*.class
+
+:
+
+    java -jar kelapa.jar k1 k15
 
 ---
 
