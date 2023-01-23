@@ -5,20 +5,17 @@ import yogyakarta.Metallophone;
 class Vestibule {
 
     public static void main(String[] args) {
-        String sign, wire;
-        long aeon = System.currentTimeMillis();
-
-        // initialize treemap and timestamp
         Metallophone kettle = new Metallophone();
 
-        // populate treemap
+        kettle.dyadic = true;
         kettle.populateDataBank();
 
-        // check for user input
         if (args.length > 0) {
+            String wire;
+            long aeon = System.currentTimeMillis();
+
             System.out.println();
-            for (String clef : args) {
-                sign = clef;
+            for (String sign : args) {
                 if (kettle.pelog.containsKey(sign)) {
                     wire = kettle.pelog.get(sign);
                     if (wire != null && wire.length() >= 60) {
@@ -32,11 +29,9 @@ class Vestibule {
             }
         }
         else {
-            System.out.println();
             kettle.displayMenu();
-
-            System.out.println('\n');
         }
+
         kettle.pelog.clear();
     }
 
