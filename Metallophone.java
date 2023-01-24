@@ -33,19 +33,20 @@ public class Metallophone {
 
     private static String translate(String yarn) {
         if (dyadic) {
-            yarn = yarn.replace("Ti", "o");
-            yarn = yarn.replace("Mn", "p");
-            yarn = yarn.replace("Fe", "q");
-            yarn = yarn.replace("Cu", "r");
-            yarn = yarn.replace("Ag", "s");
-            yarn = yarn.replace("Sn", "t");
-            yarn = yarn.replace("Au", "u");
-            yarn = yarn.replace("Hg", "v");
-            yarn = yarn.replace("Pb", "w");
-            yarn = yarn.replace("Ur", "x");
-            yarn = yarn.replace("Np", "y");
-            yarn = yarn.replace("Pu", "z");
-            yarn = yarn.replace("____", "__");
+            String[] metals = {
+              "Ti","Mn","Fe","Cu","Ag","Sn","Au","Hg","Pb","Ur","Np","Pu","____"
+            };
+            String[] charms = {
+               "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "__"
+            };
+
+            if (metals.length == charms.length) {
+                byte niter = 0;
+                while (niter < metals.length) {
+                    yarn = yarn.replace(metals[niter], charms[niter]);
+                    niter++;
+                }
+            }
         }
 
         return yarn;
