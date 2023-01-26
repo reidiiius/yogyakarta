@@ -34,6 +34,14 @@ Command-line
 
     java -jar kelapa.jar k1 k15
 
+:
+
+    java -jar kelapa.jar cgdae j3 j36
+
+:
+
+    java -jar kelapa.jar cgdae gamut
+
 ---
 
 ### Distribution

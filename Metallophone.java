@@ -97,7 +97,7 @@ public class Metallophone {
         return wire.substring(30, 60) + wire.substring( 0, 30);
     }
 
-    // composition procedures
+    // instrument procedures
     public static void beadgcf(String sign, String wire, long aeon) {
         String diadem = sign + "-beadgcf-i" + aeon;
         String[] tuning = {
@@ -165,6 +165,58 @@ public class Metallophone {
         };
 
         displayBoard(diadem, tuning);
+    }
+
+    public static void unison(String sign, String wire, long aeon) {
+        String diadem = sign + "-unison-i" + aeon;
+        String[] tuning = {
+          sCn(wire)
+        };
+
+        displayBoard(diadem, tuning);
+    }
+
+    public static void lontar(String tuned, String sign, long aeon) {
+        String flaw, wire;
+        wire = pelog.get(sign);
+        if (pelog.containsKey(sign)) {
+            wire = pelog.get(sign);
+            if (wire != null && wire.length() >= 60) {
+                switch (tuned) {
+                  case "beadgcf":
+                      beadgcf(sign, wire, aeon);
+                      break;
+                  case "bfbfb":
+                      bfbfb(sign, wire, aeon);
+                      break;
+                  case "cgdae":
+                      cgdae(sign, wire, aeon);
+                      break;
+                  case "dadgad":
+                      dadgad(sign, wire, aeon);
+                      break;
+                  case "dgdgbd":
+                      dgdgbd(sign, wire, aeon);
+                      break;
+                  case "eadgbe":
+                      eadgbe(sign, wire, aeon);
+                      break;
+                  case "fkbjdn":
+                      fkbjdn(sign, wire, aeon);
+                      break;
+                  case "unison":
+                      unison(sign, wire, aeon);
+                      break;
+                  default:
+                      beadgcf(sign, wire, aeon);
+                      break;
+                }
+                System.out.println();
+            }
+        } else {
+            flaw = String.format("\t%s ?\n", sign);
+            System.out.println(flaw);
+        }
     }
 
     public static void populateDataBank() {
