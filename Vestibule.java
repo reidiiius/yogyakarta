@@ -14,6 +14,11 @@ class Vestibule {
         kettle.populateDataBank();
         kettle.pelog.put("i0", "____ ".repeat(12));
 
+        if (args.length > kettle.pelog.size()) {
+            System.err.println("Request denied: Excessive arguments!");
+            return;
+        }
+
         if (args.length > 0) {
             String flaw, wire, tuned = new String();
             long aeon = System.currentTimeMillis();
@@ -82,11 +87,6 @@ class Vestibule {
                         break;
                     }
                     count++;
-                }
-
-                if (clefs.size() > kettle.pelog.size()) {
-                    System.err.println("Request denied: Excessive arguments!");
-                    return;
                 }
             }
 

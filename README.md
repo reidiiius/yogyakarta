@@ -36,11 +36,11 @@ Command-line
 
 :
 
-    java -jar kelapa.jar cgdae j3 j36
+    java -jar kelapa.jar eadgbe j3 j36
 
 :
 
-    java -jar kelapa.jar cgdae gamut
+    java -jar kelapa.jar cgdae gamut | sensible-pager
 
 ---
 
