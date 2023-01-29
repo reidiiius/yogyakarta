@@ -4,34 +4,44 @@ import java.util.TreeMap;
 
 public class Metallophone {
 
-    public static boolean dyadic;
-    public static TreeMap<String, String> pelog;
+    public boolean dyadic;
+    public TreeMap<String, String> pelog;
 
     public Metallophone() {
         pelog = new TreeMap<String, String>();
     }
 
-    // build and display menu
-    public static void displayMenu() {
-        short field = 0;
-        short colum = 7;
+    // acquire epochal metric
+    public long horoLog() {
+        return System.currentTimeMillis();
+    }
 
-        System.out.println();
-        for (String item : pelog.keySet()) {
-            System.out.print(String.format("\t%s", item));
-            if (++field % colum == 0) {
+    // build and display menu
+    public void displayMenu() {
+        if (pelog != null && pelog.size() > 0) {
+            short field = 0;
+            short colum = 7;
+
+            System.out.println();
+            for (String item : pelog.keySet()) {
+                System.out.print(String.format("\t%s", item));
+                if (++field % colum == 0) {
+                    System.out.println();
+                }
+            }
+            if (field % colum == 0) {
                 System.out.println();
             }
-        }
-        if (field % colum == 0) {
-            System.out.println();
+            else {
+                System.out.println('\n');
+            }
         }
         else {
-            System.out.println('\n');
+            System.out.println("Bank is empty!");
         }
     }
 
-    private static String translate(String yarn) {
+    public String translate(String yarn) {
         if (dyadic) {
             String[] metals = {
               "Ti","Mn","Fe","Cu","Ag","Sn","Au","Hg","Pb","Ur","Np","Pu","____"
@@ -53,54 +63,54 @@ public class Metallophone {
     }
 
     // display fingerboard
-    private static void displayBoard(String diadem, String[] tuning) {
+    public void displayBoard(String diadem, String[] pegbox) {
         System.out.print(String.format("\t%s\n", diadem));
-        for (String crow : tuning) {
+        for (String crow : pegbox) {
             System.out.print(String.format("\t%s\n", translate(crow)));
         }
     }
 
     // headstock subroutines
-    private static String sBj(String wire) {
+    public String sBj(String wire) {
         return wire.substring(50, 60) + wire.substring( 0, 50);
     }
 
-    private static String sFn(String wire) {
+    public String sFn(String wire) {
         return wire.substring(25, 60) + wire.substring( 0, 25);
     }
 
-    private static String sCn(String wire) {
+    public String sCn(String wire) {
         return wire.substring( 0, 60);
     }
 
-    private static String sGn(String wire) {
+    public String sGn(String wire) {
         return wire.substring(35, 60) + wire.substring( 0, 35);
     }
 
-    private static String sDn(String wire) {
+    public String sDn(String wire) {
         return wire.substring(10, 60) + wire.substring( 0, 10);
     }
 
-    private static String sAn(String wire) {
+    public String sAn(String wire) {
         return wire.substring(45, 60) + wire.substring( 0, 45);
     }
 
-    private static String sEn(String wire) {
+    public String sEn(String wire) {
         return wire.substring(20, 60) + wire.substring( 0, 20);
     }
 
-    private static String sBn(String wire) {
+    public String sBn(String wire) {
         return wire.substring(55, 60) + wire.substring( 0, 55);
     }
 
-    private static String sFk(String wire) {
+    public String sFk(String wire) {
         return wire.substring(30, 60) + wire.substring( 0, 30);
     }
 
     // instrument procedures
-    public static void beadgcf(String sign, String wire, long aeon) {
+    public void beadgcf(String sign, String wire, long aeon) {
         String diadem = sign + "-beadgcf-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sFn(wire),
           sCn(wire),
           sGn(wire),
@@ -110,73 +120,73 @@ public class Metallophone {
           sBn(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void bfbfb(String sign, String wire, long aeon) {
+    public void bfbfb(String sign, String wire, long aeon) {
         String diadem = sign + "-bfbfb-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sBn(wire), sFn(wire), sBn(wire), sFn(wire), sBn(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void cgdae(String sign, String wire, long aeon) {
+    public void cgdae(String sign, String wire, long aeon) {
         String diadem = sign + "-cgdae-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sEn(wire), sAn(wire), sDn(wire), sGn(wire), sCn(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void dadgad(String sign, String wire, long aeon) {
+    public void dadgad(String sign, String wire, long aeon) {
         String diadem = sign + "-dadgad-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sDn(wire), sAn(wire), sGn(wire), sDn(wire), sAn(wire), sDn(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void dgdgbd(String sign, String wire, long aeon) {
+    public void dgdgbd(String sign, String wire, long aeon) {
         String diadem = sign + "-dgdgbd-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sDn(wire), sBn(wire), sGn(wire), sDn(wire), sGn(wire), sDn(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void eadgbe(String sign, String wire, long aeon) {
+    public void eadgbe(String sign, String wire, long aeon) {
         String diadem = sign + "-eadgbe-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sEn(wire), sBn(wire), sGn(wire), sDn(wire), sAn(wire), sEn(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void fkbjdn(String sign, String wire, long aeon) {
+    public void fkbjdn(String sign, String wire, long aeon) {
         String diadem = sign + "-fkbjdn-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sDn(wire), sBj(wire), sFk(wire), sDn(wire), sBj(wire), sFk(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void unison(String sign, String wire, long aeon) {
+    public void unison(String sign, String wire, long aeon) {
         String diadem = sign + "-unison-i" + aeon;
-        String[] tuning = {
+        String[] pegbox = {
           sCn(wire)
         };
 
-        displayBoard(diadem, tuning);
+        displayBoard(diadem, pegbox);
     }
 
-    public static void lontar(String tuned, String sign, long aeon) {
+    public void lontar(String tuned, String sign, long aeon) {
         String flaw, wire;
         wire = pelog.get(sign);
         if (pelog.containsKey(sign)) {
@@ -219,7 +229,7 @@ public class Metallophone {
         }
     }
 
-    public static void populateDataBank() {
+    public void populateDataBank() {
       pelog.put("j136l7"  ,"____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
       pelog.put("j167l2"  ,"HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");
       pelog.put("j17l2"   ,"HgAg ____ ____ ____ CuPb PbCu ____ AuSn ____ AgHg TiFe FeTi ");

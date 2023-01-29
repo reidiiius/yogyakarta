@@ -2,7 +2,6 @@ package yogyakarta;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-import yogyakarta.Metallophone;
 
 class Vestibule {
 
@@ -21,7 +20,7 @@ class Vestibule {
 
         if (args.length > 0) {
             String flaw, wire, tuned = new String();
-            long aeon = System.currentTimeMillis();
+            long aeon = kettle.horoLog();
             byte limit = 9;
 
             String[] strums = {

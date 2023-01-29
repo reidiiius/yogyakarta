@@ -42,6 +42,42 @@ Command-line
 
     java -jar kelapa.jar cgdae gamut | sensible-pager
 
+REPL
+
+    jshell --class-path kelapa.jar
+
+:
+
+    var o = new yogyakarta.Metallophone();
+
+:
+
+    o.populateDataBank();
+
+:
+
+    o.displayMenu();
+
+:
+
+    var sign = "n0"; var wire = o.pelog.get(sign); var aeon = o.horoLog();
+
+:
+
+    o.eadgbe(sign, wire, aeon);
+
+:
+
+    o.dyadic = true;
+
+:
+
+    o.cgdae(sign, wire, aeon);
+
+:
+
+    /exit
+
 ---
 
 ### Distribution
