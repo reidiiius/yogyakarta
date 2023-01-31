@@ -2,4 +2,7 @@
 *~
 *.class
 *.swp
+build/
+classes/
+product/
 

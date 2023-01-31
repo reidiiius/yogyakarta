@@ -78,6 +78,10 @@ REPL
 
     /exit
 
+:
+
+    rm kelapa.jar yogyakarta/*.class
+
 ---
 
 ### Distribution

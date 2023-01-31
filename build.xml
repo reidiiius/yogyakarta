@@ -1,0 +1,50 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<project name="yogyakarta" basedir="." default="main">
+  <description>Chequered Notation</description>
+
+  <property name="sources.dir"  value="${basedir}" />
+  <property name="product.dir"  value="product" />
+  <property name="classes.dir"  value="classes" />
+  <property name="main-class"   value="yogyakarta.Vestibule" />
+  <property name="java-version" value="11" />
+
+  <target name="clean" description="remove previous artifacts">
+    <delete dir="${classes.dir}" />
+    <delete dir="${product.dir}" />
+    <echo message="Directory cleaned" />
+  </target>
+
+  <target name="init" depends="clean" description="directories and timestamp">
+    <mkdir dir="${classes.dir}" />
+    <mkdir dir="${product.dir}" />
+    <tstamp>
+      <format property="DSTAMP" pattern="yyyyMMddHHmmss" locale="en, US" />
+    </tstamp>
+    <echo message="Initialized" />
+  </target>
+
+  <target name="compile" depends="init" description="compile sourcecode">
+    <javac srcdir="${sources.dir}" destdir="${classes.dir}"
+      target="${java-version}" source="${java-version}"
+      includeAntRuntime="false" />
+  </target>
+
+  <target name="jar" depends="compile" description="distribution archive">
+    <jar destfile="${product.dir}/${ant.project.name}-d${DSTAMP}.jar"
+        basedir="${classes.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="${main-class}" />
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="run" depends="jar" description="check execution">
+    <java jar="${product.dir}/${ant.project.name}-d${DSTAMP}.jar" fork="true" />
+  </target>
+
+  <target name="main" depends="run">
+    <echo message="Finished" />
+  </target>
+
+</project>
+
