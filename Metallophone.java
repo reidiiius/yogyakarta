@@ -41,6 +41,7 @@ public class Metallophone {
         }
     }
 
+    // substrata transitions
     public String translate(String yarn) {
         if (dyadic) {
             String[] metals = {
@@ -70,41 +71,52 @@ public class Metallophone {
         }
     }
 
+    // tension assemblage
+    public String machine(String wire, int gear) {
+        String head, tail, xtra;
+        int span = wire.length();
+        head = wire.substring(gear, span);
+        tail = wire.substring( 0, gear);
+        xtra = head.substring( 0, 4);
+
+        return String.format("%s%s%s", head, tail, xtra);
+    }
+
     // headstock subroutines
     public String sBj(String wire) {
-        return wire.substring(50, 60) + wire.substring( 0, 50);
+        return machine(wire, 50);
     }
 
     public String sFn(String wire) {
-        return wire.substring(25, 60) + wire.substring( 0, 25);
+        return machine(wire, 25);
     }
 
     public String sCn(String wire) {
-        return wire.substring( 0, 60);
+        return machine(wire, 0);
     }
 
     public String sGn(String wire) {
-        return wire.substring(35, 60) + wire.substring( 0, 35);
+        return machine(wire, 35);
     }
 
     public String sDn(String wire) {
-        return wire.substring(10, 60) + wire.substring( 0, 10);
+        return machine(wire, 10);
     }
 
     public String sAn(String wire) {
-        return wire.substring(45, 60) + wire.substring( 0, 45);
+        return machine(wire, 45);
     }
 
     public String sEn(String wire) {
-        return wire.substring(20, 60) + wire.substring( 0, 20);
+        return machine(wire, 20);
     }
 
     public String sBn(String wire) {
-        return wire.substring(55, 60) + wire.substring( 0, 55);
+        return machine(wire, 55);
     }
 
     public String sFk(String wire) {
-        return wire.substring(30, 60) + wire.substring( 0, 30);
+        return machine(wire, 30);
     }
 
     // instrument procedures
@@ -186,6 +198,7 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    // acquire stored value and process through instrument
     public void lontar(String tuned, String sign, long aeon) {
         String flaw, wire;
         wire = pelog.get(sign);
