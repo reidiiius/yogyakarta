@@ -10,7 +10,6 @@ class Vestibule {
 
         kettle.dyadic = true;
 
-        kettle.populateDataBank();
         kettle.pelog.put("i0", "____ ".repeat(12));
 
         if (args.length > kettle.pelog.size()) {
@@ -22,17 +21,6 @@ class Vestibule {
             String flaw, wire, tuned = new String();
             long aeon = kettle.horoLog();
             byte limit = 9;
-
-            String[] strums = {
-                "beadgcf",
-                "bfbfb",
-                "cgdae",
-                "dadgad",
-                "dgdgbd",
-                "eadgbe",
-                "fkbjdn",
-                "unison",
-            };
 
             ArrayList<String> clefs = new ArrayList<String>();
 
@@ -55,8 +43,8 @@ class Vestibule {
             }
             else if (args.length == 2 && args[1].equals("gamut")) {
                 short count = 0;
-                while (count < strums.length) {
-                    if (args[0].equals(strums[count])) {
+                while (count < kettle.strums.length) {
+                    if (args[0].equals(kettle.strums[count])) {
                         tuned = args[0];
                         System.out.println();
                         for (String sign : kettle.pelog.keySet()) {
@@ -73,8 +61,8 @@ class Vestibule {
             }
             else {
                 short count = 0;
-                while (count < strums.length) {
-                    if (args[0].equals(strums[count])) {
+                while (count < kettle.strums.length) {
+                    if (args[0].equals(kettle.strums[count])) {
                         tuned = args[0];
                         for (short niter = 1; niter < args.length; niter++) {
                             if (args[niter].length() > limit) {
@@ -93,7 +81,7 @@ class Vestibule {
                 int span = args[0].length();
                 flaw = span < limit ? args[0] : args[0].substring(0, limit);
                 System.out.println(String.format("\n\t%s ?\n", flaw));
-                for (String item : strums) {
+                for (String item : kettle.strums) {
                     System.out.println(String.format("\t%s", item));
                 }
                 System.out.println();

@@ -52,10 +52,6 @@ REPL
 
 :
 
-    o.populateDataBank();
-
-:
-
     o.displayMenu();
 
 :

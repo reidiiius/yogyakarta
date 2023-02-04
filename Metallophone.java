@@ -7,8 +7,42 @@ public class Metallophone {
     public boolean dyadic;
     public TreeMap<String, String> pelog;
 
+    TreeMap<String, Integer> gears = new TreeMap<String, Integer>();
+
+    {
+      gears.put("Aj", 40);
+      gears.put("Ak", 50);
+      gears.put("An", 45);
+      gears.put("Bj", 50);
+      gears.put("Bn", 55);
+      gears.put("Ck",  5);
+      gears.put("Cn",  0);
+      gears.put("Dj",  5);
+      gears.put("Dk", 15);
+      gears.put("Dn", 10);
+      gears.put("Ej", 15);
+      gears.put("En", 20);
+      gears.put("Fk", 30);
+      gears.put("Fn", 25);
+      gears.put("Gj", 30);
+      gears.put("Gk", 40);
+      gears.put("Gn", 35);
+    }
+
+    String[] strums = {
+      "beadgcf",
+      "bfbfb",
+      "cgdae",
+      "dadgad",
+      "dgdgbd",
+      "eadgbe",
+      "fkbjdn",
+      "unison",
+    };
+
     public Metallophone() {
         pelog = new TreeMap<String, String>();
+        populateDataBank();
     }
 
     // acquire epochal metric
@@ -94,54 +128,17 @@ public class Metallophone {
         return String.format("%s%s%s", head, tail, xtra);
     }
 
-    // headstock subroutines
-    public String sBj(String wire) {
-        return machine(wire, 50);
-    }
-
-    public String sFn(String wire) {
-        return machine(wire, 25);
-    }
-
-    public String sCn(String wire) {
-        return machine(wire, 0);
-    }
-
-    public String sGn(String wire) {
-        return machine(wire, 35);
-    }
-
-    public String sDn(String wire) {
-        return machine(wire, 10);
-    }
-
-    public String sAn(String wire) {
-        return machine(wire, 45);
-    }
-
-    public String sEn(String wire) {
-        return machine(wire, 20);
-    }
-
-    public String sBn(String wire) {
-        return machine(wire, 55);
-    }
-
-    public String sFk(String wire) {
-        return machine(wire, 30);
-    }
-
     // instrument procedures
     public void beadgcf(String sign, String wire, long aeon) {
         String diadem = sign + "-beadgcf-i" + aeon;
         String[] pegbox = {
-          sFn(wire),
-          sCn(wire),
-          sGn(wire),
-          sDn(wire),
-          sAn(wire),
-          sEn(wire),
-          sBn(wire)
+          machine(wire, gears.get("Fn")),
+          machine(wire, gears.get("Cn")),
+          machine(wire, gears.get("Gn")),
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("An")),
+          machine(wire, gears.get("En")),
+          machine(wire, gears.get("Bn")),
         };
 
         displayBoard(diadem, pegbox);
@@ -150,7 +147,11 @@ public class Metallophone {
     public void bfbfb(String sign, String wire, long aeon) {
         String diadem = sign + "-bfbfb-i" + aeon;
         String[] pegbox = {
-          sBn(wire), sFn(wire), sBn(wire), sFn(wire), sBn(wire)
+          machine(wire, gears.get("Bn")),
+          machine(wire, gears.get("Fn")),
+          machine(wire, gears.get("Bn")),
+          machine(wire, gears.get("Fn")),
+          machine(wire, gears.get("Bn")),
         };
 
         displayBoard(diadem, pegbox);
@@ -159,7 +160,11 @@ public class Metallophone {
     public void cgdae(String sign, String wire, long aeon) {
         String diadem = sign + "-cgdae-i" + aeon;
         String[] pegbox = {
-          sEn(wire), sAn(wire), sDn(wire), sGn(wire), sCn(wire)
+          machine(wire, gears.get("En")),
+          machine(wire, gears.get("An")),
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("Gn")),
+          machine(wire, gears.get("Cn")),
         };
 
         displayBoard(diadem, pegbox);
@@ -168,7 +173,12 @@ public class Metallophone {
     public void dadgad(String sign, String wire, long aeon) {
         String diadem = sign + "-dadgad-i" + aeon;
         String[] pegbox = {
-          sDn(wire), sAn(wire), sGn(wire), sDn(wire), sAn(wire), sDn(wire)
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("An")),
+          machine(wire, gears.get("Gn")),
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("An")),
+          machine(wire, gears.get("Dn")),
         };
 
         displayBoard(diadem, pegbox);
@@ -177,7 +187,12 @@ public class Metallophone {
     public void dgdgbd(String sign, String wire, long aeon) {
         String diadem = sign + "-dgdgbd-i" + aeon;
         String[] pegbox = {
-          sDn(wire), sBn(wire), sGn(wire), sDn(wire), sGn(wire), sDn(wire)
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("Bn")),
+          machine(wire, gears.get("Gn")),
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("Gn")),
+          machine(wire, gears.get("Dn")),
         };
 
         displayBoard(diadem, pegbox);
@@ -186,7 +201,12 @@ public class Metallophone {
     public void eadgbe(String sign, String wire, long aeon) {
         String diadem = sign + "-eadgbe-i" + aeon;
         String[] pegbox = {
-          sEn(wire), sBn(wire), sGn(wire), sDn(wire), sAn(wire), sEn(wire)
+          machine(wire, gears.get("En")),
+          machine(wire, gears.get("Bn")),
+          machine(wire, gears.get("Gn")),
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("An")),
+          machine(wire, gears.get("En")),
         };
 
         displayBoard(diadem, pegbox);
@@ -195,7 +215,12 @@ public class Metallophone {
     public void fkbjdn(String sign, String wire, long aeon) {
         String diadem = sign + "-fkbjdn-i" + aeon;
         String[] pegbox = {
-          sDn(wire), sBj(wire), sFk(wire), sDn(wire), sBj(wire), sFk(wire)
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("Bj")),
+          machine(wire, gears.get("Fk")),
+          machine(wire, gears.get("Dn")),
+          machine(wire, gears.get("Bj")),
+          machine(wire, gears.get("Fk")),
         };
 
         displayBoard(diadem, pegbox);
@@ -204,7 +229,7 @@ public class Metallophone {
     public void unison(String sign, String wire, long aeon) {
         String diadem = sign + "-unison-i" + aeon;
         String[] pegbox = {
-          sCn(wire)
+          machine(wire, gears.get("Cn")),
         };
 
         displayBoard(diadem, pegbox);
