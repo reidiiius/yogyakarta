@@ -73,11 +73,23 @@ public class Metallophone {
 
     // tension assemblage
     public String machine(String wire, int gear) {
-        String head, tail, xtra;
+        String head, tail, xtra = new String();
         int span = wire.length();
+        byte numb = 4;
+
+        if (gear > span) gear = span;
+
         head = wire.substring(gear, span);
         tail = wire.substring( 0, gear);
-        xtra = head.substring( 0, 4);
+
+        if (head.length() >= numb) {
+            try {
+                xtra = head.substring( 0, numb);
+            }
+            catch (Exception anomaly) {
+                System.err.println(anomaly);
+            }
+        }
 
         return String.format("%s%s%s", head, tail, xtra);
     }
