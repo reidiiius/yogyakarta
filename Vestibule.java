@@ -43,8 +43,8 @@ class Vestibule {
             }
             else if (args.length == 2 && args[1].equals("gamut")) {
                 short count = 0;
-                while (count < kettle.strums.length) {
-                    if (args[0].equals(kettle.strums[count])) {
+                while (count < kettle.tunings.length) {
+                    if (args[0].equals(kettle.tunings[count])) {
                         tuned = args[0];
                         System.out.println();
                         for (String sign : kettle.pelog.keySet()) {
@@ -61,8 +61,8 @@ class Vestibule {
             }
             else {
                 short count = 0;
-                while (count < kettle.strums.length) {
-                    if (args[0].equals(kettle.strums[count])) {
+                while (count < kettle.tunings.length) {
+                    if (args[0].equals(kettle.tunings[count])) {
                         tuned = args[0];
                         for (short niter = 1; niter < args.length; niter++) {
                             if (args[niter].length() > limit) {
@@ -81,7 +81,7 @@ class Vestibule {
                 int span = args[0].length();
                 flaw = span < limit ? args[0] : args[0].substring(0, limit);
                 System.out.println(String.format("\n\t%s ?\n", flaw));
-                for (String item : kettle.strums) {
+                for (String item : kettle.tunings) {
                     System.out.println(String.format("\t%s", item));
                 }
                 System.out.println();

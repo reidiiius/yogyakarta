@@ -60,6 +60,10 @@ REPL
 
 :
 
+    for (var s : o.getTunings()) System.out.println("\n\t" + s);
+
+:
+
     o.eadgbe(sign, wire, aeon);
 
 :
@@ -74,7 +78,7 @@ REPL
 
     /exit
 
-:
+Cleanup
 
     rm kelapa.jar yogyakarta/*.class
 

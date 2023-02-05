@@ -29,7 +29,7 @@ public class Metallophone {
       gears.put("Gn", 35);
     }
 
-    String[] strums = {
+    final String[] tunings = {
       "beadgcf",
       "bfbfb",
       "cgdae",
@@ -43,6 +43,12 @@ public class Metallophone {
     public Metallophone() {
         pelog = new TreeMap<String, String>();
         populateDataBank();
+    }
+
+    public String[] getTunings() {
+        String[] stars = tunings.clone();
+
+        return stars;
     }
 
     // acquire epochal metric
