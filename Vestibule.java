@@ -59,6 +59,53 @@ class Vestibule {
                     return;
                 }
             }
+            else if (args.length == 2 && args[0].equals("group")) {
+                String kinda = String.format("%s%s%s", "^.*", args[1], ".*$");
+                String brief;
+
+                for (String sign : kettle.pelog.keySet()) {
+                    brief = kettle.pelog.get(sign);
+
+                    if (kettle.dyadic) {
+                        brief = kettle.translate(brief);
+                    }
+
+                    if (Pattern.matches(kinda, brief)) {
+                        clefs.add(sign);
+                    }
+                }
+
+                if (clefs.isEmpty()) {
+                    System.out.println("\n\tNothing matched!\n");
+                }
+                else {
+                    String[] stars = new String[clefs.size()];
+
+                    kettle.tabulate(clefs.toArray(stars));
+                }
+
+                return;
+            }
+            else if (args.length == 2 && args[0].equals("query")) {
+                String kinda = String.format("%s%s%s", "^.*", args[1], ".*$");
+
+                for (String sign : kettle.pelog.keySet()) {
+                    if (Pattern.matches(kinda, sign)) {
+                        clefs.add(sign);
+                    }
+                }
+
+                if (clefs.isEmpty()) {
+                    System.out.println("\n\tNothing matched!\n");
+                }
+                else {
+                    String[] stars = new String[clefs.size()];
+
+                    kettle.tabulate(clefs.toArray(stars));
+                }
+
+                return;
+            }
             else {
                 short count = 0;
                 while (count < kettle.tunings.length) {

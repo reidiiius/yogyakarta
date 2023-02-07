@@ -56,15 +56,15 @@ public class Metallophone {
         return System.currentTimeMillis();
     }
 
-    // build and display menu
-    public void displayMenu() {
-        if (pelog != null && pelog.size() > 0) {
+    // configure and printout columns
+    public void tabulate(String[] stars) {
+        if (stars != null && stars.length > 0) {
             short field = 0;
             short colum = 7;
 
             System.out.println();
-            for (String item : pelog.keySet()) {
-                System.out.print(String.format("\t%s", item));
+            for (String sign : stars) {
+                System.out.print(String.format("\t%s", sign));
                 if (++field % colum == 0) {
                     System.out.println();
                 }
@@ -75,6 +75,17 @@ public class Metallophone {
             else {
                 System.out.println('\n');
             }
+        }
+        else {
+            System.out.println("Collection is empty!");
+        }
+    }
+
+    public void displayMenu() {
+        if (pelog != null && pelog.size() > 0) {
+            String[] stars = new String[pelog.size()];
+
+            tabulate(pelog.keySet().toArray(stars));
         }
         else {
             System.out.println("Bank is empty!");
