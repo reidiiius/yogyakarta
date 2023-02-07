@@ -5,11 +5,57 @@ import java.util.regex.Pattern;
 
 class Vestibule {
 
+    static Metallophone kettle = new Metallophone();
+
+    static ArrayList<String> clefs = new ArrayList<String>();
+
+    static void apprisal() {
+        if (clefs.isEmpty()) {
+            System.out.println("\n\tNothing matched!\n");
+        }
+        else {
+            String[] stars = new String[clefs.size()];
+
+            kettle.tabulate(clefs.toArray(stars));
+        }
+    }
+
+    // research pelog values
+    static void regroup(String expo) {
+        String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
+        String brief;
+
+        for (String sign : kettle.pelog.keySet()) {
+            brief = kettle.pelog.get(sign);
+
+            if (kettle.dyadic) {
+                brief = kettle.translate(brief);
+            }
+
+            if (Pattern.matches(kinda, brief)) {
+                clefs.add(sign);
+            }
+        }
+
+        apprisal();
+    }
+
+    // research pelog keys
+    static void request(String expo) {
+        String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
+
+        for (String sign : kettle.pelog.keySet()) {
+            if (Pattern.matches(kinda, sign)) {
+                clefs.add(sign);
+            }
+        }
+
+        apprisal();
+    }
+
+    // application entryway
     public static void main(String[] args) {
-        Metallophone kettle = new Metallophone();
-
         kettle.dyadic = true;
-
         kettle.pelog.put("i0", "____ ".repeat(12));
 
         if (args.length > kettle.pelog.size()) {
@@ -21,8 +67,6 @@ class Vestibule {
             String flaw, wire, tuned = new String();
             long aeon = kettle.horoLog();
             byte limit = 9;
-
-            ArrayList<String> clefs = new ArrayList<String>();
 
             if (Pattern.matches("^([ijkn][0-9]+?)+?.*", args[0])) {
                 tuned = "default";
@@ -60,48 +104,23 @@ class Vestibule {
                 }
             }
             else if (args.length == 2 && args[0].equals("group")) {
-                String kinda = String.format("%s%s%s", "^.*", args[1], ".*$");
-                String brief;
-
-                for (String sign : kettle.pelog.keySet()) {
-                    brief = kettle.pelog.get(sign);
-
-                    if (kettle.dyadic) {
-                        brief = kettle.translate(brief);
-                    }
-
-                    if (Pattern.matches(kinda, brief)) {
-                        clefs.add(sign);
-                    }
-                }
-
-                if (clefs.isEmpty()) {
-                    System.out.println("\n\tNothing matched!\n");
+                if (args[1].length() < limit) {
+                    regroup(args[1]);
                 }
                 else {
-                    String[] stars = new String[clefs.size()];
-
-                    kettle.tabulate(clefs.toArray(stars));
+                    flaw = args[1].substring(0, limit);
+                    System.out.println("\n\t" + flaw + "..?\n");
                 }
 
                 return;
             }
             else if (args.length == 2 && args[0].equals("query")) {
-                String kinda = String.format("%s%s%s", "^.*", args[1], ".*$");
-
-                for (String sign : kettle.pelog.keySet()) {
-                    if (Pattern.matches(kinda, sign)) {
-                        clefs.add(sign);
-                    }
-                }
-
-                if (clefs.isEmpty()) {
-                    System.out.println("\n\tNothing matched!\n");
+                if (args[1].length() < limit) {
+                    request(args[1]);
                 }
                 else {
-                    String[] stars = new String[clefs.size()];
-
-                    kettle.tabulate(clefs.toArray(stars));
+                    flaw = args[1].substring(0, limit);
+                    System.out.println("\n\t" + flaw + "..?\n");
                 }
 
                 return;
