@@ -1,14 +1,38 @@
 package yogyakarta;
 
+import java.util.regex.Pattern;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * Chequered Notation
+ *
+ * @version 1675886832
+ * @author Reid Netterville III
+ */
 public class Metallophone {
 
+    /**
+     * Toggle betwixt tonal veils.
+     */
     public boolean dyadic;
-    public TreeMap<String, String> pelog;
 
+    /**
+     * Buffer for pelog key tokens.
+     */
+    ArrayList<String> clefs = new ArrayList<String>();
+
+    /**
+     * Map of key accidentals to tonal sequence values.
+     */
+    TreeMap<String, String> pelog = new TreeMap<String, String>();
+
+    /**
+     * Map of pitch keys to range index values.
+     */
     TreeMap<String, Integer> gears = new TreeMap<String, Integer>();
 
+    // initialize record entries for gears
     {
       gears.put("Aj", 40);
       gears.put("Ak", 50);
@@ -29,6 +53,9 @@ public class Metallophone {
       gears.put("Gn", 35);
     }
 
+    /**
+     * List of instrument tunings.
+     */
     final String[] tunings = {
       "beadgcf",
       "bfbfb",
@@ -40,25 +67,71 @@ public class Metallophone {
       "unison",
     };
 
+    /**
+     * Populates instance.
+     */
     public Metallophone() {
-        pelog = new TreeMap<String, String>();
         populateDataBank();
     }
 
+    /**
+     * Clones a copy of tunings.
+     *
+     * @return list of instrument tunings
+     */
     public String[] getTunings() {
         String[] stars = tunings.clone();
 
         return stars;
     }
 
-    // acquire epochal metric
-    public long horoLog() {
-        return System.currentTimeMillis();
+    /**
+     * Validates key token.
+     *
+     * @param sign key token
+     * @return true if token matches pelog key
+     */
+    public boolean sentinel(String sign) {
+        String expo = "^([ijkn][0-9]+?)+?.*";
+        boolean flag = Pattern.matches(expo, sign);
+
+        return flag;
     }
 
-    // configure and printout columns
+    /**
+     * Getter for pelog values.
+     *
+     * @param sign key token
+     * @return character sequence
+     */
+    public String getScale(String sign) {
+        String wire = new String();
+
+        if (sentinel(sign) && pelog.containsKey(sign)) {
+            wire = pelog.get(sign);
+        }
+
+        return wire;
+    }
+
+    /**
+     * Acquire epochal metric.
+     *
+     * @return epochal metric
+     */
+    public long horoLog() {
+        long epoch = System.currentTimeMillis();
+
+        return epoch;
+    }
+
+    /**
+     * Configure and printout columns.
+     *
+     * @param stars list of key tokens
+     */
     public void tabulate(String[] stars) {
-        if (stars != null && stars.length > 0) {
+        if (stars.length > 0) {
             short field = 0;
             short colum = 7;
 
@@ -81,8 +154,11 @@ public class Metallophone {
         }
     }
 
+    /**
+     * Acquire pelog keys to be formatted into columns.
+     */
     public void displayMenu() {
-        if (pelog != null && pelog.size() > 0) {
+        if (pelog.size() > 0) {
             String[] stars = new String[pelog.size()];
 
             tabulate(pelog.keySet().toArray(stars));
@@ -92,7 +168,12 @@ public class Metallophone {
         }
     }
 
-    // substrata transitions
+    /**
+     * Translates tonal veils.
+     *
+     * @param yarn character sequence
+     * @return character sequence
+     */
     public String translate(String yarn) {
         if (dyadic) {
             String[] metals = {
@@ -104,8 +185,10 @@ public class Metallophone {
 
             if (metals.length == charms.length) {
                 byte niter = 0;
+
                 while (niter < metals.length) {
                     yarn = yarn.replace(metals[niter], charms[niter]);
+
                     niter++;
                 }
             }
@@ -114,7 +197,69 @@ public class Metallophone {
         return yarn;
     }
 
-    // display fingerboard
+    /**
+     * Pass copy of clefs to tabulate and clear clefs.
+     */
+    public void apprisal() {
+        if (clefs.isEmpty()) {
+            System.out.println("\n\tNothing matched!\n");
+        }
+        else {
+            String[] stars = new String[clefs.size()];
+
+            tabulate(clefs.toArray(stars));
+        }
+
+        clefs.clear();
+    }
+
+    /**
+     * Research pelog values.
+     *
+     * @param expo comparison token
+     */
+    public void regroup(String expo) {
+        String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
+        String brief;
+
+        for (String sign : pelog.keySet()) {
+            brief = getScale(sign);
+
+            if (dyadic) {
+                brief = translate(brief);
+            }
+
+            if (Pattern.matches(kinda, brief)) {
+                clefs.add(sign);
+            }
+        }
+
+        apprisal();
+    }
+
+    /**
+     * Research pelog keys.
+     *
+     * @param expo comparison token
+     */
+    public void request(String expo) {
+        String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
+
+        for (String sign : pelog.keySet()) {
+            if (Pattern.matches(kinda, sign)) {
+                clefs.add(sign);
+            }
+        }
+
+        apprisal();
+    }
+
+    /**
+     * Display fingerboard matrix.
+     *
+     * @param diadem matrix headline
+     * @param pegbox instrument courses
+     */
     public void displayBoard(String diadem, String[] pegbox) {
         System.out.print(String.format("\t%s\n", diadem));
         for (String crow : pegbox) {
@@ -122,7 +267,14 @@ public class Metallophone {
         }
     }
 
-    // tension assemblage
+    /**
+     * Tune instrument course and append octave.
+     *
+     * @param wire character sequence
+     * @param gear range index
+     * @throws StringIndexOutOfBoundsException
+     * @return character sequence
+     */
     public String machine(String wire, int gear) {
         String head, tail, xtra = new String();
         int span = wire.length();
@@ -145,7 +297,13 @@ public class Metallophone {
         return String.format("%s%s%s", head, tail, xtra);
     }
 
-    // instrument procedures
+    /**
+     * Instrument procedure for beadgcf tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void beadgcf(String sign, String wire, long aeon) {
         String diadem = sign + "-beadgcf-i" + aeon;
         String[] pegbox = {
@@ -161,6 +319,13 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    /**
+     * Instrument procedure for bfbfb tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void bfbfb(String sign, String wire, long aeon) {
         String diadem = sign + "-bfbfb-i" + aeon;
         String[] pegbox = {
@@ -174,6 +339,13 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    /**
+     * Instrument procedure for cgdae tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void cgdae(String sign, String wire, long aeon) {
         String diadem = sign + "-cgdae-i" + aeon;
         String[] pegbox = {
@@ -187,6 +359,13 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    /**
+     * Instrument procedure for dadgad tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void dadgad(String sign, String wire, long aeon) {
         String diadem = sign + "-dadgad-i" + aeon;
         String[] pegbox = {
@@ -201,6 +380,13 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    /**
+     * Instrument procedure for dgdgbd tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void dgdgbd(String sign, String wire, long aeon) {
         String diadem = sign + "-dgdgbd-i" + aeon;
         String[] pegbox = {
@@ -215,6 +401,13 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    /**
+     * Instrument procedure for eadgbe tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void eadgbe(String sign, String wire, long aeon) {
         String diadem = sign + "-eadgbe-i" + aeon;
         String[] pegbox = {
@@ -229,6 +422,13 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    /**
+     * Instrument procedure for fkbjdn tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void fkbjdn(String sign, String wire, long aeon) {
         String diadem = sign + "-fkbjdn-i" + aeon;
         String[] pegbox = {
@@ -243,6 +443,13 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
+    /**
+     * Instrument procedure for unison tuning.
+     *
+     * @param sign accidentals
+     * @param wire character sequence
+     * @param aeon epochal metric
+     */
     public void unison(String sign, String wire, long aeon) {
         String diadem = sign + "-unison-i" + aeon;
         String[] pegbox = {
@@ -252,50 +459,72 @@ public class Metallophone {
         displayBoard(diadem, pegbox);
     }
 
-    // acquire stored value and process through instrument
+    /**
+     * Acquire stored value and process through instrument method.
+     *
+     * @param tuned instrument tuning
+     * @param sign accidentals
+     * @param aeon epochal metric
+     */
     public void lontar(String tuned, String sign, long aeon) {
-        String flaw, wire;
-        wire = pelog.get(sign);
-        if (pelog.containsKey(sign)) {
-            wire = pelog.get(sign);
-            if (wire != null && wire.length() >= 60) {
-                switch (tuned) {
-                  case "beadgcf":
-                      beadgcf(sign, wire, aeon);
-                      break;
-                  case "bfbfb":
-                      bfbfb(sign, wire, aeon);
-                      break;
-                  case "cgdae":
-                      cgdae(sign, wire, aeon);
-                      break;
-                  case "dadgad":
-                      dadgad(sign, wire, aeon);
-                      break;
-                  case "dgdgbd":
-                      dgdgbd(sign, wire, aeon);
-                      break;
-                  case "eadgbe":
-                      eadgbe(sign, wire, aeon);
-                      break;
-                  case "fkbjdn":
-                      fkbjdn(sign, wire, aeon);
-                      break;
-                  case "unison":
-                      unison(sign, wire, aeon);
-                      break;
-                  default:
-                      beadgcf(sign, wire, aeon);
-                      break;
-                }
-                System.out.println();
-            }
-        } else {
+        String flaw, wire = getScale(sign);
+
+        if (wire.isEmpty()) {
             flaw = String.format("\t%s ?\n", sign);
+
             System.out.println(flaw);
+        }
+        else {
+            switch (tuned) {
+              case "beadgcf":
+                  beadgcf(sign, wire, aeon);
+                  break;
+              case "bfbfb":
+                  bfbfb(sign, wire, aeon);
+                  break;
+              case "cgdae":
+                  cgdae(sign, wire, aeon);
+                  break;
+              case "dadgad":
+                  dadgad(sign, wire, aeon);
+                  break;
+              case "dgdgbd":
+                  dgdgbd(sign, wire, aeon);
+                  break;
+              case "eadgbe":
+                  eadgbe(sign, wire, aeon);
+                  break;
+              case "fkbjdn":
+                  fkbjdn(sign, wire, aeon);
+                  break;
+              case "unison":
+                  unison(sign, wire, aeon);
+                  break;
+              default:
+                  beadgcf(sign, wire, aeon);
+                  break;
+            }
+            System.out.println();
         }
     }
 
+    /**
+     * Pass all pelog entries to lontar for processing.
+     *
+     * @param tuned instrument tuning
+     */
+    public void every(String tuned) {
+        long aeon = horoLog();
+
+        System.out.println();
+        for (String sign : pelog.keySet()) {
+            lontar(tuned, sign, aeon);
+        }
+    }
+
+    /**
+     * Establish pelog record entries.
+     */
     public void populateDataBank() {
       pelog.put("j136l7"  ,"____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
       pelog.put("j167l2"  ,"HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");

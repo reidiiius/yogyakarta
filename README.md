@@ -64,7 +64,7 @@ REPL
 
 :
 
-    var sign = "n0"; var wire = o.pelog.get(sign); var aeon = o.horoLog();
+    var sign = "n0"; var wire = o.getScale(sign); var aeon = o.horoLog();
 
 :
 
@@ -81,6 +81,22 @@ REPL
 :
 
     o.cgdae(sign, wire, aeon);
+
+:
+
+    o.request("k1");
+
+:
+
+    o.lontar("beadgcf", "k15", aeon);
+
+:
+
+    o.regroup("tw");
+
+:
+
+    o.lontar("beadgcf", "k56", aeon);
 
 :
 
