@@ -7,7 +7,7 @@ import java.util.TreeMap;
 /**
  * Chequered Notation
  *
- * @version 1675886832
+ * @version 1676408257
  * @author Reid Netterville III
  */
 public class Metallophone {
@@ -18,21 +18,21 @@ public class Metallophone {
     public boolean dyadic;
 
     /**
-     * Buffer for pelog key tokens.
+     * Buffer for scales key tokens.
      */
     ArrayList<String> clefs = new ArrayList<String>();
 
     /**
      * Map of key accidentals to tonal sequence values.
      */
-    TreeMap<String, String> pelog = new TreeMap<String, String>();
+    TreeMap<String, String> scales = new TreeMap<String, String>();
 
     /**
      * Map of pitch keys to range index values.
      */
     TreeMap<String, Integer> gears = new TreeMap<String, Integer>();
 
-    // initialize record entries for gears
+    // initialize entries for gears
     {
       gears.put("Aj", 40);
       gears.put("Ak", 50);
@@ -54,17 +54,38 @@ public class Metallophone {
     }
 
     /**
+     * Map of tuning keys to pitches values.
+     */
+    TreeMap<String, String[]> stones = new TreeMap<String, String[]>();
+
+    // initialize entries for stones
+    {
+      stones.put("beadgcf", new String[] {"Fn","Cn","Gn","Dn","An","En","Bn"});
+      stones.put("bfbfb",   new String[] {"Bn","Fn","Bn","Fn","Bn"});
+      stones.put("cgdae",   new String[] {"En","An","Dn","Gn","Cn"});
+      stones.put("dadgad",  new String[] {"Dn","An","Gn","Dn","An","Dn"});
+      stones.put("dgdgbd",  new String[] {"Dn","Bn","Gn","Dn","Gn","Dn"});
+      stones.put("eadgbe",  new String[] {"En","Bn","Gn","Dn","An","En"});
+      stones.put("fkbjdn",  new String[] {"Dn","Bj","Fk","Dn","Bj","Fk"});
+      stones.put("unison",  new String[] {"Cn"});
+    }
+
+    /**
      * List of instrument tunings.
      */
-    final String[] tunings = {
-      "beadgcf",
-      "bfbfb",
-      "cgdae",
-      "dadgad",
-      "dgdgbd",
-      "eadgbe",
-      "fkbjdn",
-      "unison",
+    String[] tunings = stones.keySet().toArray(new String[stones.size()]);
+
+    /**
+     * List of tonal veils.
+     */
+    String[] metals = {
+      "Ti","Mn","Fe","Cu","Ag","Sn","Au","Hg","Pb","Ur","Np","Pu","____"
+    };
+    String[] charms = {
+       "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "__"
+    };
+    String[] arcane = {
+       "2", "3", "4", "5", "6", "7", "8", "9", "N", "P", "Q", "R", "__"
     };
 
     /**
@@ -80,16 +101,37 @@ public class Metallophone {
      * @return list of instrument tunings
      */
     public String[] getTunings() {
-        String[] stars = tunings.clone();
+        String[] cords = tunings.clone();
 
-        return stars;
+        return cords;
     }
 
     /**
-     * Validates key token.
+     * Validates tunings key token.
+     *
+     * @param strum instrument tuning
+     */
+    public String stockade(String strum) {
+        String tuned = "beadgcf";
+        short count = 0;
+
+        while (count < tunings.length) {
+            if (strum.equals(tunings[count])) {
+                tuned = strum;
+
+                break;
+            }
+            count++;
+        }
+
+        return tuned;
+    }
+
+    /**
+     * Validates scales key token.
      *
      * @param sign key token
-     * @return true if token matches pelog key
+     * @return true if token matches scales key
      */
     public boolean sentinel(String sign) {
         String expo = "^([ijkn][0-9]+?)+?.*";
@@ -99,7 +141,7 @@ public class Metallophone {
     }
 
     /**
-     * Getter for pelog values.
+     * Getter for scales values.
      *
      * @param sign key token
      * @return character sequence
@@ -107,8 +149,8 @@ public class Metallophone {
     public String getScale(String sign) {
         String wire = new String();
 
-        if (sentinel(sign) && pelog.containsKey(sign)) {
-            wire = pelog.get(sign);
+        if (sentinel(sign) && scales.containsKey(sign)) {
+            wire = scales.get(sign);
         }
 
         return wire;
@@ -128,15 +170,15 @@ public class Metallophone {
     /**
      * Configure and printout columns.
      *
-     * @param stars list of key tokens
+     * @param signs list of key tokens
      */
-    public void tabulate(String[] stars) {
-        if (stars.length > 0) {
+    public void tabulate(String[] signs) {
+        if (signs.length > 0) {
             short field = 0;
             short colum = 7;
 
             System.out.println();
-            for (String sign : stars) {
+            for (String sign : signs) {
                 System.out.print(String.format("\t%s", sign));
                 if (++field % colum == 0) {
                     System.out.println();
@@ -155,13 +197,20 @@ public class Metallophone {
     }
 
     /**
-     * Acquire pelog keys to be formatted into columns.
+     * Acquire scales keys to be formatted into columns.
      */
-    public void displayMenu() {
-        if (pelog.size() > 0) {
-            String[] stars = new String[pelog.size()];
+    public void dashboard() {
+        if (scales.size() > 0) {
+            String[] cords = getTunings();
+            String[] signs = new String[scales.size()];
 
-            tabulate(pelog.keySet().toArray(stars));
+            System.out.print("\n\t");
+            for (String item : cords) {
+                System.out.print(item + " ");
+            }
+            System.out.println();
+
+            tabulate(scales.keySet().toArray(signs));
         }
         else {
             System.out.println("Bank is empty!");
@@ -176,15 +225,8 @@ public class Metallophone {
      */
     public String translate(String yarn) {
         if (dyadic) {
-            String[] metals = {
-              "Ti","Mn","Fe","Cu","Ag","Sn","Au","Hg","Pb","Ur","Np","Pu","____"
-            };
-            String[] charms = {
-               "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "__"
-            };
-
             if (metals.length == charms.length) {
-                byte niter = 0;
+                char niter = 0;
 
                 while (niter < metals.length) {
                     yarn = yarn.replace(metals[niter], charms[niter]);
@@ -198,23 +240,23 @@ public class Metallophone {
     }
 
     /**
-     * Pass copy of clefs to tabulate and clear clefs.
+     * Pass copy of clefs to tabulate then clear clefs.
      */
     public void apprisal() {
         if (clefs.isEmpty()) {
             System.out.println("\n\tNothing matched!\n");
         }
         else {
-            String[] stars = new String[clefs.size()];
+            String[] signs = new String[clefs.size()];
 
-            tabulate(clefs.toArray(stars));
+            tabulate(clefs.toArray(signs));
         }
 
         clefs.clear();
     }
 
     /**
-     * Research pelog values.
+     * Research scales values.
      *
      * @param expo comparison token
      */
@@ -222,7 +264,7 @@ public class Metallophone {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
         String brief;
 
-        for (String sign : pelog.keySet()) {
+        for (String sign : scales.keySet()) {
             brief = getScale(sign);
 
             if (dyadic) {
@@ -238,14 +280,14 @@ public class Metallophone {
     }
 
     /**
-     * Research pelog keys.
+     * Research scales keys.
      *
      * @param expo comparison token
      */
     public void request(String expo) {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
 
-        for (String sign : pelog.keySet()) {
+        for (String sign : scales.keySet()) {
             if (Pattern.matches(kinda, sign)) {
                 clefs.add(sign);
             }
@@ -255,12 +297,12 @@ public class Metallophone {
     }
 
     /**
-     * Display fingerboard matrix.
+     * Printout fingerboard matrix.
      *
      * @param diadem matrix headline
      * @param pegbox instrument courses
      */
-    public void displayBoard(String diadem, String[] pegbox) {
+    public void fingerboard(String diadem, String[] pegbox) {
         System.out.print(String.format("\t%s\n", diadem));
         for (String crow : pegbox) {
             System.out.print(String.format("\t%s\n", translate(crow)));
@@ -298,218 +340,39 @@ public class Metallophone {
     }
 
     /**
-     * Instrument procedure for beadgcf tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void beadgcf(String sign, String wire, long aeon) {
-        String diadem = sign + "-beadgcf-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("Fn")),
-          machine(wire, gears.get("Cn")),
-          machine(wire, gears.get("Gn")),
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("An")),
-          machine(wire, gears.get("En")),
-          machine(wire, gears.get("Bn")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Instrument procedure for bfbfb tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void bfbfb(String sign, String wire, long aeon) {
-        String diadem = sign + "-bfbfb-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("Bn")),
-          machine(wire, gears.get("Fn")),
-          machine(wire, gears.get("Bn")),
-          machine(wire, gears.get("Fn")),
-          machine(wire, gears.get("Bn")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Instrument procedure for cgdae tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void cgdae(String sign, String wire, long aeon) {
-        String diadem = sign + "-cgdae-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("En")),
-          machine(wire, gears.get("An")),
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("Gn")),
-          machine(wire, gears.get("Cn")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Instrument procedure for dadgad tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void dadgad(String sign, String wire, long aeon) {
-        String diadem = sign + "-dadgad-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("An")),
-          machine(wire, gears.get("Gn")),
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("An")),
-          machine(wire, gears.get("Dn")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Instrument procedure for dgdgbd tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void dgdgbd(String sign, String wire, long aeon) {
-        String diadem = sign + "-dgdgbd-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("Bn")),
-          machine(wire, gears.get("Gn")),
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("Gn")),
-          machine(wire, gears.get("Dn")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Instrument procedure for eadgbe tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void eadgbe(String sign, String wire, long aeon) {
-        String diadem = sign + "-eadgbe-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("En")),
-          machine(wire, gears.get("Bn")),
-          machine(wire, gears.get("Gn")),
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("An")),
-          machine(wire, gears.get("En")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Instrument procedure for fkbjdn tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void fkbjdn(String sign, String wire, long aeon) {
-        String diadem = sign + "-fkbjdn-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("Bj")),
-          machine(wire, gears.get("Fk")),
-          machine(wire, gears.get("Dn")),
-          machine(wire, gears.get("Bj")),
-          machine(wire, gears.get("Fk")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Instrument procedure for unison tuning.
-     *
-     * @param sign accidentals
-     * @param wire character sequence
-     * @param aeon epochal metric
-     */
-    public void unison(String sign, String wire, long aeon) {
-        String diadem = sign + "-unison-i" + aeon;
-        String[] pegbox = {
-          machine(wire, gears.get("Cn")),
-        };
-
-        displayBoard(diadem, pegbox);
-    }
-
-    /**
-     * Acquire stored value and process through instrument method.
+     * Acquire stored value then process through machine.
      *
      * @param tuned instrument tuning
      * @param sign accidentals
      * @param aeon epochal metric
      */
-    public void lontar(String tuned, String sign, long aeon) {
+    public void compose(String tuned, String sign, long aeon) {
         String flaw, wire = getScale(sign);
 
         if (wire.isEmpty()) {
-            flaw = String.format("\t%s ?\n", sign);
+            flaw = String.format("\t%s ?", sign);
 
             System.out.println(flaw);
         }
         else {
-            switch (tuned) {
-              case "beadgcf":
-                  beadgcf(sign, wire, aeon);
-                  break;
-              case "bfbfb":
-                  bfbfb(sign, wire, aeon);
-                  break;
-              case "cgdae":
-                  cgdae(sign, wire, aeon);
-                  break;
-              case "dadgad":
-                  dadgad(sign, wire, aeon);
-                  break;
-              case "dgdgbd":
-                  dgdgbd(sign, wire, aeon);
-                  break;
-              case "eadgbe":
-                  eadgbe(sign, wire, aeon);
-                  break;
-              case "fkbjdn":
-                  fkbjdn(sign, wire, aeon);
-                  break;
-              case "unison":
-                  unison(sign, wire, aeon);
-                  break;
-              default:
-                  beadgcf(sign, wire, aeon);
-                  break;
+            String cord = stockade(tuned);
+            String diadem = String.format("%s-%s-i%s", sign, cord, aeon);
+
+            String[] pitches = stones.get(cord);
+            String[] pegbox = new String[pitches.length];
+
+            for (char niter = 0; niter < pitches.length; niter++) {
+                pegbox[niter] = machine(wire, gears.get(pitches[niter]));
             }
-            System.out.println();
+
+            fingerboard(diadem, pegbox);
         }
+
+        System.out.println();
     }
 
     /**
-     * Pass all pelog entries to lontar for processing.
+     * Pass all scales entries to compose for processing.
      *
      * @param tuned instrument tuning
      */
@@ -517,98 +380,98 @@ public class Metallophone {
         long aeon = horoLog();
 
         System.out.println();
-        for (String sign : pelog.keySet()) {
-            lontar(tuned, sign, aeon);
+        for (String sign : scales.keySet()) {
+            compose(tuned, sign, aeon);
         }
     }
 
     /**
-     * Establish pelog record entries.
+     * Initialize entries for scales.
      */
     public void populateDataBank() {
-      pelog.put("j136l7"  ,"____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
-      pelog.put("j167l2"  ,"HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");
-      pelog.put("j17l2"   ,"HgAg ____ ____ ____ CuPb PbCu ____ AuSn ____ AgHg TiFe FeTi ");
-      pelog.put("j17"     ,"____ ____ SnAu ____ CuPb PbCu ____ AuSn ____ AgHg TiFe FeTi ");
-      pelog.put("j236"    ,"HgHg PuFe ____ UrAg ____ PbAu ____ AuPb NpCu ____ ____ FePu ");
-      pelog.put("j23"     ,"HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ____ AgUr ____ FePu ");
-      pelog.put("j23k6"   ,"HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ____ ____ TiSn FePu ");
-      pelog.put("j246l3"  ,"HgHg PuFe SnTi ____ CuNp ____ ____ AuPb NpCu ____ ____ FePu ");
-      pelog.put("j256"    ,"FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp ____ ____ TiPb ");
-      pelog.put("j25"     ,"FeCu HgMn ____ ____ MnHg CuFe PbTi ____ ____ NpAu ____ TiPb ");
-      pelog.put("j25l6"   ,"TiCu FeMn ____ ____ SnHg MnFe CuTi PbAg ____ ____ ____ AgPb ");
-      pelog.put("j26"     ,"HgHg PuFe ____ ____ CuNp PbAu ____ AuPb NpCu ____ ____ FePu ");
-      pelog.put("j26l34"  ,"HgHg PuFe SnTi UrAg ____ ____ ____ AuPb NpCu ____ ____ FePu ");
-      pelog.put("j26l3"   ,"HgHg PuFe SnTi ____ ____ PbAu ____ AuPb NpCu ____ ____ FePu ");
-      pelog.put("j2"      ,"HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ____ AgUr ____ FePu ");
-      pelog.put("j2k34"   ,"TiCu FeMn ____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb ");
-      pelog.put("j2k56"   ,"HgHg PuFe ____ ____ CuNp PbAu ____ ____ NpCu ____ TiSn FePu ");
-      pelog.put("j2k56m4" ,"HgHg PuFe ____ ____ CuNp ____ ____ AuPb NpCu ____ TiSn FePu ");
-      pelog.put("j2k5"    ,"FeCu HgMn ____ ____ MnHg CuFe ____ ____ AuNp NpAu ____ TiPb ");
-      pelog.put("j2k6"    ,"HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ____ ____ TiSn FePu ");
-      pelog.put("j2k6l3"  ,"HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ____ ____ TiSn FePu ");
-      pelog.put("j2k6m5"  ,"HgHg PuFe ____ ____ CuNp PbAu ____ ____ ____ AgUr TiSn FePu ");
-      pelog.put("j2l3"    ,"HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ____ AgUr ____ FePu ");
-      pelog.put("j346l5"  ,"NpCu ____ TiSn FePu HgHg PuFe ____ ____ CuNp ____ ____ AuPb ");
-      pelog.put("j34k6"   ,"HgSn ____ SnHg MnFe CuTi ____ ____ AuAu ____ ____ TiCu FeMn ");
-      pelog.put("j36"     ,"HgAu ____ SnPb UrCu ____ PbSn ____ AuHg NpFe ____ ____ FeNp ");
-      pelog.put("j3"      ,"HgSn ____ SnHg UrFe ____ PbAg ____ AuAu ____ AgPb ____ FeUr ");
-      pelog.put("j3k56m4" ,"HgTi ____ SnNp UrAu ____ ____ ____ AuUr NpSn ____ TiHg FeFe ");
-      pelog.put("j3k5m4"  ,"HgAu ____ SnPb UrCu ____ ____ ____ AuHg NpFe AgTi ____ FeNp ");
-      pelog.put("j3k5"    ,"NpCu ____ TiSn FePu ____ PuFe ____ ____ CuNp PbAu ____ AuPb ");
-      pelog.put("j3k6"    ,"HgTi ____ SnNp UrAu ____ PbPb ____ AuUr ____ ____ TiHg FeFe ");
-      pelog.put("j56l7"   ,"UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp HgAu ____ ____ ");
-      pelog.put("j56"     ,"UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ____ ____ SnPb ");
-      pelog.put("j5l6"    ,"PbCu ____ AuSn ____ AgHg TiFe FeTi HgAg ____ ____ ____ CuPb ");
-      pelog.put("j5"      ,"PbCu ____ AuSn ____ AgHg TiFe FeTi ____ ____ SnAu ____ CuPb ");
-      pelog.put("j6"      ,"HgAu ____ SnPb ____ CuUr PbSn ____ AuHg NpFe ____ ____ FeNp ");
-      pelog.put("k125"    ,"____ AgUr ____ FePu HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ");
-      pelog.put("k12"     ,"____ AgUr ____ FePu HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ");
-      pelog.put("k12j5"   ,"____ AgUr ____ FePu HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ");
-      pelog.put("k135m4"  ,"____ CuUr PbSn ____ ____ NpFe ____ TiAg FeNp HgAu ____ SnPb ");
-      pelog.put("k157m6"  ,"HgHg PuFe SnTi ____ CuNp PbAu ____ ____ NpCu ____ ____ FePu ");
-      pelog.put("k15"     ,"____ CuUr PbSn ____ AuHg NpFe ____ ____ FeNp HgAu ____ SnPb ");
-      pelog.put("k17j5"   ,"TiCu FeMn HgSn ____ SnHg MnFe CuTi ____ ____ AuAu ____ ____ ");
-      pelog.put("k1"      ,"____ FeUr HgSn ____ SnHg UrFe ____ PbAg ____ AuAu ____ AgPb ");
-      pelog.put("k1j56l7" ,"____ AuUr NpSn ____ TiHg FeFe HgTi ____ SnNp UrAu ____ ____ ");
-      pelog.put("k1j5"    ,"____ AuUr NpSn ____ TiHg FeFe HgTi ____ ____ UrAu ____ PbPb ");
-      pelog.put("k1j6l7"  ,"____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp HgAu ____ ____ ");
-      pelog.put("k1j6"    ,"____ PuFe SnTi ____ CuNp PbAu ____ AuPb NpCu ____ ____ FePu ");
-      pelog.put("k256"    ,"HgMn ____ ____ MnHg CuFe PbTi ____ ____ NpAu ____ TiPb FeCu ");
-      pelog.put("k257m1"  ,"NpCu ____ TiSn FePu HgHg PuFe ____ ____ CuNp PbAu ____ ____ ");
-      pelog.put("k25m17"  ,"____ AgUr TiSn FePu HgHg PuFe ____ ____ CuNp PbAu ____ ____ ");
-      pelog.put("k25m1"   ,"____ ____ TiSn FePu HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ");
-      pelog.put("k25"     ,"NpCu ____ ____ FePu HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ");
-      pelog.put("k26"     ,"HgMn ____ ____ MnHg CuFe PbTi ____ AuNp ____ ____ TiPb FeCu ");
-      pelog.put("k26m5"   ,"HgSn ____ ____ MnFe CuTi PbAg ____ ____ ____ AgPb TiCu FeMn ");
-      pelog.put("k2j17"   ,"____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb TiCu FeMn ");
-      pelog.put("k2j56l7" ,"NpCu ____ ____ FePu HgHg PuFe SnTi ____ CuNp PbAu ____ ____ ");
-      pelog.put("k2j56"   ,"NpCu ____ ____ FePu HgHg PuFe SnTi ____ CuNp ____ ____ AuPb ");
-      pelog.put("k2j5l6"  ,"NpCu ____ ____ FePu HgHg PuFe SnTi UrAg ____ ____ ____ AuPb ");
-      pelog.put("k2j5m1"  ,"____ ____ TiSn FePu HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ");
-      pelog.put("k2j5"    ,"NpCu ____ ____ FePu HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ");
-      pelog.put("k2j6"    ,"HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ FeCu ");
-      pelog.put("k2m1"    ,"____ ____ TiSn FePu HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ");
-      pelog.put("k2"      ,"NpCu ____ ____ FePu HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ");
-      pelog.put("k345m2"  ,"UrCu ____ ____ ____ AuHg NpFe AgTi ____ FeNp HgAu ____ SnPb ");
-      pelog.put("k34m2"   ,"PbCu ____ ____ ____ AgHg TiFe FeTi HgAg ____ SnAu ____ CuPb ");
-      pelog.put("k34"     ,"PbCu ____ AuSn ____ ____ TiFe FeTi HgAg ____ SnAu ____ CuPb ");
-      pelog.put("k56"     ,"HgAu ____ SnPb ____ CuUr PbSn ____ ____ NpFe ____ TiAg FeNp ");
-      pelog.put("k56m4"   ,"HgAu ____ SnPb ____ CuUr ____ ____ AuHg NpFe ____ TiAg FeNp ");
-      pelog.put("k5"      ,"UrCu ____ PbSn ____ AuHg NpFe ____ ____ FeNp HgAu ____ SnPb ");
-      pelog.put("k6"      ,"HgAg ____ SnAu ____ CuPb PbCu ____ AuSn ____ ____ TiFe FeTi ");
-      pelog.put("k6m5"    ,"HgAg ____ SnAu ____ CuPb PbCu ____ ____ ____ AgHg TiFe FeTi ");
-      pelog.put("n0"      ,"HgCu ____ SnSn ____ CuHg PbFe ____ AuAg ____ AgAu ____ FePb ");
-      pelog.put("n167m4"  ,"HgAu ____ ____ UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
-      pelog.put("n167"    ,"NpCu ____ ____ FePu ____ PuFe SnTi ____ CuNp PbAu ____ AuPb ");
-      pelog.put("n25m6"   ,"TiCu FeMn HgSn ____ ____ MnFe CuTi PbAg ____ ____ ____ AgPb ");
-      pelog.put("n26l5"   ,"____ ____ SnHg MnFe CuTi PbAg ____ ____ ____ AgPb TiCu FeMn ");
-      pelog.put("n345l7"  ,"____ CuUr ____ ____ AuHg NpFe ____ TiAg FeNp HgAu ____ SnPb ");
-      pelog.put("n345"    ,"____ PuFe ____ ____ CuNp PbAu ____ AuPb NpCu ____ TiSn FePu ");
-      pelog.put("n45l2"   ,"HgTi ____ ____ UrAu ____ PbPb ____ AuUr NpSn ____ TiHg FeFe ");
-      pelog.put("n5l2"    ,"HgMn ____ ____ MnHg CuFe ____ ____ AuNp NpAu ____ TiPb FeCu ");
-      pelog.put("n67m2"   ,"____ AuUr ____ ____ TiHg FeFe HgTi ____ SnNp UrAu ____ PbPb ");
-      pelog.put("n6m2"    ,"FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ ");
+      scales.put("j136l7"  ,"____ ____ SnPb UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
+      scales.put("j167l2"  ,"HgAu ____ ____ ____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp ");
+      scales.put("j17l2"   ,"HgAg ____ ____ ____ CuPb PbCu ____ AuSn ____ AgHg TiFe FeTi ");
+      scales.put("j17"     ,"____ ____ SnAu ____ CuPb PbCu ____ AuSn ____ AgHg TiFe FeTi ");
+      scales.put("j236"    ,"HgHg PuFe ____ UrAg ____ PbAu ____ AuPb NpCu ____ ____ FePu ");
+      scales.put("j23"     ,"HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ____ AgUr ____ FePu ");
+      scales.put("j23k6"   ,"HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ____ ____ TiSn FePu ");
+      scales.put("j246l3"  ,"HgHg PuFe SnTi ____ CuNp ____ ____ AuPb NpCu ____ ____ FePu ");
+      scales.put("j256"    ,"FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp ____ ____ TiPb ");
+      scales.put("j25"     ,"FeCu HgMn ____ ____ MnHg CuFe PbTi ____ ____ NpAu ____ TiPb ");
+      scales.put("j25l6"   ,"TiCu FeMn ____ ____ SnHg MnFe CuTi PbAg ____ ____ ____ AgPb ");
+      scales.put("j26"     ,"HgHg PuFe ____ ____ CuNp PbAu ____ AuPb NpCu ____ ____ FePu ");
+      scales.put("j26l34"  ,"HgHg PuFe SnTi UrAg ____ ____ ____ AuPb NpCu ____ ____ FePu ");
+      scales.put("j26l3"   ,"HgHg PuFe SnTi ____ ____ PbAu ____ AuPb NpCu ____ ____ FePu ");
+      scales.put("j2"      ,"HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ____ AgUr ____ FePu ");
+      scales.put("j2k34"   ,"TiCu FeMn ____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb ");
+      scales.put("j2k56"   ,"HgHg PuFe ____ ____ CuNp PbAu ____ ____ NpCu ____ TiSn FePu ");
+      scales.put("j2k56m4" ,"HgHg PuFe ____ ____ CuNp ____ ____ AuPb NpCu ____ TiSn FePu ");
+      scales.put("j2k5"    ,"FeCu HgMn ____ ____ MnHg CuFe ____ ____ AuNp NpAu ____ TiPb ");
+      scales.put("j2k6"    ,"HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ____ ____ TiSn FePu ");
+      scales.put("j2k6l3"  ,"HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ____ ____ TiSn FePu ");
+      scales.put("j2k6m5"  ,"HgHg PuFe ____ ____ CuNp PbAu ____ ____ ____ AgUr TiSn FePu ");
+      scales.put("j2l3"    ,"HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ____ AgUr ____ FePu ");
+      scales.put("j346l5"  ,"NpCu ____ TiSn FePu HgHg PuFe ____ ____ CuNp ____ ____ AuPb ");
+      scales.put("j34k6"   ,"HgSn ____ SnHg MnFe CuTi ____ ____ AuAu ____ ____ TiCu FeMn ");
+      scales.put("j36"     ,"HgAu ____ SnPb UrCu ____ PbSn ____ AuHg NpFe ____ ____ FeNp ");
+      scales.put("j3"      ,"HgSn ____ SnHg UrFe ____ PbAg ____ AuAu ____ AgPb ____ FeUr ");
+      scales.put("j3k56m4" ,"HgTi ____ SnNp UrAu ____ ____ ____ AuUr NpSn ____ TiHg FeFe ");
+      scales.put("j3k5m4"  ,"HgAu ____ SnPb UrCu ____ ____ ____ AuHg NpFe AgTi ____ FeNp ");
+      scales.put("j3k5"    ,"NpCu ____ TiSn FePu ____ PuFe ____ ____ CuNp PbAu ____ AuPb ");
+      scales.put("j3k6"    ,"HgTi ____ SnNp UrAu ____ PbPb ____ AuUr ____ ____ TiHg FeFe ");
+      scales.put("j56l7"   ,"UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp HgAu ____ ____ ");
+      scales.put("j56"     ,"UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ____ ____ SnPb ");
+      scales.put("j5l6"    ,"PbCu ____ AuSn ____ AgHg TiFe FeTi HgAg ____ ____ ____ CuPb ");
+      scales.put("j5"      ,"PbCu ____ AuSn ____ AgHg TiFe FeTi ____ ____ SnAu ____ CuPb ");
+      scales.put("j6"      ,"HgAu ____ SnPb ____ CuUr PbSn ____ AuHg NpFe ____ ____ FeNp ");
+      scales.put("k125"    ,"____ AgUr ____ FePu HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ");
+      scales.put("k12"     ,"____ AgUr ____ FePu HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ");
+      scales.put("k12j5"   ,"____ AgUr ____ FePu HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ");
+      scales.put("k135m4"  ,"____ CuUr PbSn ____ ____ NpFe ____ TiAg FeNp HgAu ____ SnPb ");
+      scales.put("k157m6"  ,"HgHg PuFe SnTi ____ CuNp PbAu ____ ____ NpCu ____ ____ FePu ");
+      scales.put("k15"     ,"____ CuUr PbSn ____ AuHg NpFe ____ ____ FeNp HgAu ____ SnPb ");
+      scales.put("k17j5"   ,"TiCu FeMn HgSn ____ SnHg MnFe CuTi ____ ____ AuAu ____ ____ ");
+      scales.put("k1"      ,"____ FeUr HgSn ____ SnHg UrFe ____ PbAg ____ AuAu ____ AgPb ");
+      scales.put("k1j56l7" ,"____ AuUr NpSn ____ TiHg FeFe HgTi ____ SnNp UrAu ____ ____ ");
+      scales.put("k1j5"    ,"____ AuUr NpSn ____ TiHg FeFe HgTi ____ ____ UrAu ____ PbPb ");
+      scales.put("k1j6l7"  ,"____ CuUr PbSn ____ AuHg NpFe ____ TiAg FeNp HgAu ____ ____ ");
+      scales.put("k1j6"    ,"____ PuFe SnTi ____ CuNp PbAu ____ AuPb NpCu ____ ____ FePu ");
+      scales.put("k256"    ,"HgMn ____ ____ MnHg CuFe PbTi ____ ____ NpAu ____ TiPb FeCu ");
+      scales.put("k257m1"  ,"NpCu ____ TiSn FePu HgHg PuFe ____ ____ CuNp PbAu ____ ____ ");
+      scales.put("k25m17"  ,"____ AgUr TiSn FePu HgHg PuFe ____ ____ CuNp PbAu ____ ____ ");
+      scales.put("k25m1"   ,"____ ____ TiSn FePu HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ");
+      scales.put("k25"     ,"NpCu ____ ____ FePu HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ");
+      scales.put("k26"     ,"HgMn ____ ____ MnHg CuFe PbTi ____ AuNp ____ ____ TiPb FeCu ");
+      scales.put("k26m5"   ,"HgSn ____ ____ MnFe CuTi PbAg ____ ____ ____ AgPb TiCu FeMn ");
+      scales.put("k2j17"   ,"____ ____ ____ MnFe CuTi PbAg ____ AuAu ____ AgPb TiCu FeMn ");
+      scales.put("k2j56l7" ,"NpCu ____ ____ FePu HgHg PuFe SnTi ____ CuNp PbAu ____ ____ ");
+      scales.put("k2j56"   ,"NpCu ____ ____ FePu HgHg PuFe SnTi ____ CuNp ____ ____ AuPb ");
+      scales.put("k2j5l6"  ,"NpCu ____ ____ FePu HgHg PuFe SnTi UrAg ____ ____ ____ AuPb ");
+      scales.put("k2j5m1"  ,"____ ____ TiSn FePu HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ");
+      scales.put("k2j5"    ,"NpCu ____ ____ FePu HgHg PuFe SnTi ____ ____ PbAu ____ AuPb ");
+      scales.put("k2j6"    ,"HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ FeCu ");
+      scales.put("k2m1"    ,"____ ____ TiSn FePu HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ");
+      scales.put("k2"      ,"NpCu ____ ____ FePu HgHg PuFe ____ UrAg ____ PbAu ____ AuPb ");
+      scales.put("k345m2"  ,"UrCu ____ ____ ____ AuHg NpFe AgTi ____ FeNp HgAu ____ SnPb ");
+      scales.put("k34m2"   ,"PbCu ____ ____ ____ AgHg TiFe FeTi HgAg ____ SnAu ____ CuPb ");
+      scales.put("k34"     ,"PbCu ____ AuSn ____ ____ TiFe FeTi HgAg ____ SnAu ____ CuPb ");
+      scales.put("k56"     ,"HgAu ____ SnPb ____ CuUr PbSn ____ ____ NpFe ____ TiAg FeNp ");
+      scales.put("k56m4"   ,"HgAu ____ SnPb ____ CuUr ____ ____ AuHg NpFe ____ TiAg FeNp ");
+      scales.put("k5"      ,"UrCu ____ PbSn ____ AuHg NpFe ____ ____ FeNp HgAu ____ SnPb ");
+      scales.put("k6"      ,"HgAg ____ SnAu ____ CuPb PbCu ____ AuSn ____ ____ TiFe FeTi ");
+      scales.put("k6m5"    ,"HgAg ____ SnAu ____ CuPb PbCu ____ ____ ____ AgHg TiFe FeTi ");
+      scales.put("n0"      ,"HgCu ____ SnSn ____ CuHg PbFe ____ AuAg ____ AgAu ____ FePb ");
+      scales.put("n167m4"  ,"HgAu ____ ____ UrCu ____ PbSn ____ AuHg NpFe AgTi ____ FeNp ");
+      scales.put("n167"    ,"NpCu ____ ____ FePu ____ PuFe SnTi ____ CuNp PbAu ____ AuPb ");
+      scales.put("n25m6"   ,"TiCu FeMn HgSn ____ ____ MnFe CuTi PbAg ____ ____ ____ AgPb ");
+      scales.put("n26l5"   ,"____ ____ SnHg MnFe CuTi PbAg ____ ____ ____ AgPb TiCu FeMn ");
+      scales.put("n345l7"  ,"____ CuUr ____ ____ AuHg NpFe ____ TiAg FeNp HgAu ____ SnPb ");
+      scales.put("n345"    ,"____ PuFe ____ ____ CuNp PbAu ____ AuPb NpCu ____ TiSn FePu ");
+      scales.put("n45l2"   ,"HgTi ____ ____ UrAu ____ PbPb ____ AuUr NpSn ____ TiHg FeFe ");
+      scales.put("n5l2"    ,"HgMn ____ ____ MnHg CuFe ____ ____ AuNp NpAu ____ TiPb FeCu ");
+      scales.put("n67m2"   ,"____ AuUr ____ ____ TiHg FeFe HgTi ____ SnNp UrAu ____ PbPb ");
+      scales.put("n6m2"    ,"FeCu HgMn ____ ____ MnHg CuFe PbTi ____ AuNp NpAu ____ ____ ");
     }
 
 }

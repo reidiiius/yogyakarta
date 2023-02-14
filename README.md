@@ -60,19 +60,15 @@ REPL
 
 :
 
-    o.displayMenu();
+    o.dashboard();
 
 :
 
-    var sign = "n0"; var wire = o.getScale(sign); var aeon = o.horoLog();
+    var aeon = o.horoLog();
 
 :
 
-    for (var s : o.getTunings()) System.out.println("\n\t" + s);
-
-:
-
-    o.eadgbe(sign, wire, aeon);
+    o.compose("cgdae", "k1", aeon);
 
 :
 
@@ -80,7 +76,7 @@ REPL
 
 :
 
-    o.cgdae(sign, wire, aeon);
+    o.compose("cgdae", "k1", aeon);
 
 :
 
@@ -88,7 +84,7 @@ REPL
 
 :
 
-    o.lontar("beadgcf", "k15", aeon);
+    o.compose("beadgcf", "k15", aeon);
 
 :
 
@@ -96,7 +92,7 @@ REPL
 
 :
 
-    o.lontar("beadgcf", "k56", aeon);
+    o.compose("beadgcf", "j56", aeon);
 
 :
 

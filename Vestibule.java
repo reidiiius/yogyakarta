@@ -6,9 +6,9 @@ class Vestibule {
 
     public static void main(String[] args) {
         kettle.dyadic = true;
-        kettle.pelog.put("i0", "____ ".repeat(12));
+        kettle.scales.put("i0", "____ ".repeat(12));
 
-        if (args.length > kettle.pelog.size()) {
+        if (args.length > kettle.scales.size()) {
             System.err.println("Request denied: Excessive arguments!");
             return;
         }
@@ -107,22 +107,22 @@ class Vestibule {
             }
 
             if (kettle.clefs.isEmpty()) {
-                kettle.displayMenu();
+                kettle.dashboard();
                 return;
             }
 
             System.out.println();
             for (String sign : kettle.clefs) {
-                kettle.lontar(tuned, sign, aeon);
+                kettle.compose(tuned, sign, aeon);
             }
 
             kettle.clefs.clear();
         }
         else {
-            kettle.displayMenu();
+            kettle.dashboard();
         }
 
-        kettle.pelog.clear();
+        kettle.scales.clear();
     }
 
 }
