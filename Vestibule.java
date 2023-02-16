@@ -12,108 +12,133 @@ class Vestibule {
             System.err.println("Request denied: Excessive arguments!");
             return;
         }
-
-        if (args.length > 0) {
-            String flaw, wire, tuned = new String();
+        else if (args.length > 0) {
+            String flaw, sign, tuned;
             long aeon = kettle.horoLog();
-            byte limit = 9;
+            int span, limit = 9;
 
-            if (kettle.sentinel(args[0])) {
-                tuned = "default";
+            for (String item : args) {
+                if (item.length() > limit) {
+                    kettle.clefs.add(item.substring(0, limit));
+                    continue;
+                }
+                kettle.clefs.add(item);
+            }
 
-                for (String item : args) {
-                    if (item.length() > limit) {
-                        kettle.clefs.add(item.substring(0, limit));
-                        continue;
+            if (kettle.clefs.size() == 1) {
+                if (kettle.sentinel(kettle.clefs.get(0))) {
+                    tuned = kettle.tunings[0];
+
+                    System.out.println();
+                    for (String clef : kettle.clefs) {
+                        kettle.compose(tuned, clef, aeon);
                     }
-                    kettle.clefs.add(item);
+
+                    return;
+                }
+                else if (kettle.clefs.get(0).equals("gamut")) {
+                    tuned = kettle.tunings[0];
+
+                    kettle.every(tuned);
+                    return;
+                }
+                else if (! kettle.guardian(kettle.clefs.get(0))) {
+                    flaw = kettle.clefs.get(0);
+
+                    System.out.println(String.format("\n\t%s ?\n", flaw));
+                    for (String item : kettle.tunings) {
+                       System.out.println(String.format("\t%s", item));
+                    }
+                    System.out.println();
+                    return;
+                }
+                else {
+                    kettle.dashboard();
                 }
             }
-            else if (args.length == 1 && args[0].equals("gamut")) {
-                tuned = "default";
+            else if (kettle.clefs.size() == 2) {
+                if (kettle.guardian(kettle.clefs.get(0)) &&
+                    kettle.clefs.get(1).equals("gamut")) {
+                    tuned = kettle.stockade(kettle.clefs.get(0));
 
-                kettle.every(tuned);
-                return;
-            }
-            else if (args.length == 2 && args[1].equals("gamut")) {
-                short count = 0;
-
-                while (count < kettle.tunings.length) {
-                    if (args[0].equals(kettle.tunings[count])) {
-                        tuned = args[0];
-
-                        kettle.every(tuned);
-                        break;
-                    }
-                    count++;
+                    kettle.every(tuned);
+                    return;
                 }
+                else if (kettle.clefs.get(0).equals("group")) {
+                    kettle.regroup(kettle.clefs.get(1));
+                    return;
+                }
+                else if (kettle.clefs.get(0).equals("query")) {
+                    kettle.request(kettle.clefs.get(1));
+                    return;
+                }
+                else if (kettle.guardian(kettle.clefs.get(0)) &&
+                    kettle.sentinel(kettle.clefs.get(1))) {
+                    tuned = kettle.stockade(kettle.clefs.get(0));
 
-                if (! tuned.isEmpty()) {
+                    System.out.println();
+                    for (int niter = 1; niter < kettle.clefs.size(); niter++) {
+                        sign = kettle.clefs.get(niter);
+
+                        kettle.compose(tuned, sign, aeon);
+                    }
+                }
+                else if (kettle.sentinel(kettle.clefs.get(0)) &&
+                    kettle.sentinel(kettle.clefs.get(1))) {
+                    tuned = kettle.tunings[0];
+
+                    System.out.println();
+                    for (String clef : kettle.clefs) {
+                        kettle.compose(tuned, clef, aeon);
+                    }
+                }
+                else {
+                    flaw = kettle.clefs.get(0);
+
+                    System.out.println(String.format("\n\t%s ?\n", flaw));
+                    for (String item : kettle.tunings) {
+                       System.out.println(String.format("\t%s", item));
+                    }
+                    System.out.println();
                     return;
                 }
             }
-            else if (args.length == 2 && args[0].equals("group")) {
-                if (args[1].length() < limit) {
-                    kettle.regroup(args[1]);
+            else if (kettle.clefs.size() > 2) {
+                if (kettle.guardian(kettle.clefs.get(0)) &&
+                    kettle.sentinel(kettle.clefs.get(1)) &&
+                    kettle.sentinel(kettle.clefs.get(2))) {
+                    tuned = kettle.stockade(kettle.clefs.get(0));
+
+                    System.out.println();
+                    for (int niter = 1; niter < kettle.clefs.size(); niter++) {
+                        sign = kettle.clefs.get(niter);
+
+                        kettle.compose(tuned, sign, aeon);
+                    }
+                }
+                else if (kettle.sentinel(kettle.clefs.get(0)) &&
+                    kettle.sentinel(kettle.clefs.get(1)) &&
+                    kettle.sentinel(kettle.clefs.get(2))) {
+                    tuned = kettle.tunings[0];
+
+                    System.out.println();
+                    for (String clef : kettle.clefs) {
+                        kettle.compose(tuned, clef, aeon);
+                    }
                 }
                 else {
-                    flaw = args[1].substring(0, limit);
-
-                    System.out.println("\n\t" + flaw + "..?\n");
+                    kettle.dashboard();
                 }
-                return;
-            }
-            else if (args.length == 2 && args[0].equals("query")) {
-                if (args[1].length() < limit) {
-                    kettle.request(args[1]);
-                }
-                else {
-                    flaw = args[1].substring(0, limit);
-
-                    System.out.println("\n\t" + flaw + "..?\n");
-                }
-                return;
             }
             else {
-                short count = 0;
-
-                while (count < kettle.tunings.length) {
-                    if (args[0].equals(kettle.tunings[count])) {
-                        tuned = args[0];
-
-                        for (short niter = 1; niter < args.length; niter++) {
-                            if (args[niter].length() > limit) {
-                                kettle.clefs.add(args[niter].substring(0, limit));
-                                continue;
-                            }
-                            kettle.clefs.add(args[niter]);
-                        }
-                        break;
-                    }
-                    count++;
-                }
-            }
-
-            if (tuned.isEmpty()) {
-                int span = args[0].length();
-                flaw = span < limit ? args[0] : args[0].substring(0, limit);
+                flaw = kettle.clefs.get(0);
 
                 System.out.println(String.format("\n\t%s ?\n", flaw));
                 for (String item : kettle.tunings) {
-                    System.out.println(String.format("\t%s", item));
+                   System.out.println(String.format("\t%s", item));
                 }
                 System.out.println();
                 return;
-            }
-
-            if (kettle.clefs.isEmpty()) {
-                kettle.dashboard();
-                return;
-            }
-
-            System.out.println();
-            for (String sign : kettle.clefs) {
-                kettle.compose(tuned, sign, aeon);
             }
 
             kettle.clefs.clear();

@@ -7,7 +7,7 @@ import java.util.TreeMap;
 /**
  * Chequered Notation
  *
- * @version 1676408257
+ * @version 1676507650
  * @author Reid Netterville III
  */
 public class Metallophone {
@@ -15,7 +15,7 @@ public class Metallophone {
     /**
      * Toggle betwixt tonal veils.
      */
-    public boolean dyadic;
+    public boolean dyadic = false;
 
     /**
      * Buffer for scales key tokens.
@@ -110,9 +110,10 @@ public class Metallophone {
      * Validates tunings key token.
      *
      * @param strum instrument tuning
+     * @return character sequence
      */
     public String stockade(String strum) {
-        String tuned = "beadgcf";
+        String tuned = tunings[0];
         short count = 0;
 
         while (count < tunings.length) {
@@ -125,6 +126,25 @@ public class Metallophone {
         }
 
         return tuned;
+    }
+
+    /**
+     * Validates tuning character sequence.
+     *
+     * @param strum character sequence
+     * @return true if sequence is tunings member
+     */
+    public boolean guardian(String strum) {
+        boolean flag = false;
+
+        for (String item : tunings) {
+            if (strum.equals(item)) {
+                flag = true;
+                break;
+            }
+        }
+
+        return flag;
     }
 
     /**
@@ -264,6 +284,7 @@ public class Metallophone {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
         String brief;
 
+        clefs.clear();
         for (String sign : scales.keySet()) {
             brief = getScale(sign);
 
@@ -287,6 +308,7 @@ public class Metallophone {
     public void request(String expo) {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
 
+        clefs.clear();
         for (String sign : scales.keySet()) {
             if (Pattern.matches(kinda, sign)) {
                 clefs.add(sign);
@@ -314,8 +336,8 @@ public class Metallophone {
      *
      * @param wire character sequence
      * @param gear range index
-     * @throws StringIndexOutOfBoundsException
      * @return character sequence
+     * @throws StringIndexOutOfBoundsException
      */
     public String machine(String wire, int gear) {
         String head, tail, xtra = new String();
