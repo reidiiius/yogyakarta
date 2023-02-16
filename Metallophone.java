@@ -7,7 +7,7 @@ import java.util.TreeMap;
 /**
  * Chequered Notation
  *
- * @version 1676507650
+ * @version 1676531466
  * @author Reid Netterville III
  */
 public class Metallophone {
@@ -18,7 +18,7 @@ public class Metallophone {
     public boolean dyadic = false;
 
     /**
-     * Buffer for scales key tokens.
+     * Buffer for argument tokens.
      */
     ArrayList<String> clefs = new ArrayList<String>();
 
@@ -71,12 +71,12 @@ public class Metallophone {
     }
 
     /**
-     * List of instrument tunings.
+     * Array of instrument tunings.
      */
     String[] tunings = stones.keySet().toArray(new String[stones.size()]);
 
     /**
-     * List of tonal veils.
+     * Arrays of tonal veils.
      */
     String[] metals = {
       "Ti","Mn","Fe","Cu","Ag","Sn","Au","Hg","Pb","Ur","Np","Pu","____"
@@ -98,7 +98,7 @@ public class Metallophone {
     /**
      * Clones a copy of tunings.
      *
-     * @return list of instrument tunings
+     * @return Array of instrument tunings
      */
     public String[] getTunings() {
         String[] cords = tunings.clone();
@@ -107,10 +107,10 @@ public class Metallophone {
     }
 
     /**
-     * Validates tunings key token.
+     * Validates tunings membership.
      *
-     * @param strum instrument tuning
-     * @return character sequence
+     * @param strum character sequence
+     * @return valid instrument tuning
      */
     public String stockade(String strum) {
         String tuned = tunings[0];
@@ -150,7 +150,7 @@ public class Metallophone {
     /**
      * Validates scales key token.
      *
-     * @param sign key token
+     * @param sign character sequence
      * @return true if token matches scales key
      */
     public boolean sentinel(String sign) {
@@ -163,8 +163,8 @@ public class Metallophone {
     /**
      * Getter for scales values.
      *
-     * @param sign key token
-     * @return character sequence
+     * @param sign key signature token
+     * @return character sequence value
      */
     public String getScale(String sign) {
         String wire = new String();
@@ -179,7 +179,7 @@ public class Metallophone {
     /**
      * Acquire epochal metric.
      *
-     * @return epochal metric
+     * @return serial number
      */
     public long horoLog() {
         long epoch = System.currentTimeMillis();
@@ -190,7 +190,7 @@ public class Metallophone {
     /**
      * Configure and printout columns.
      *
-     * @param signs list of key tokens
+     * @param signs Array of key tokens
      */
     public void tabulate(String[] signs) {
         if (signs.length > 0) {
