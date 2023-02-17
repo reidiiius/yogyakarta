@@ -20,63 +20,67 @@ class Vestibule {
 
             for (String item : args) {
                 if (item.length() > limit) {
-                    kettle.clefs.add(item.substring(0, limit));
+                    kettle.buffs.add(item.substring(0, limit));
                     continue;
                 }
-                kettle.clefs.add(item);
+                kettle.buffs.add(item);
             }
 
-            if (kettle.clefs.size() == 1) {
-                if (kettle.sentinel(kettle.clefs.get(0))) {
-                    sign = kettle.clefs.get(0);
+            if (kettle.buffs.size() == 1) {
+                if (kettle.sentinel(kettle.buffs.get(0))) {
+                    sign = kettle.buffs.get(0);
 
                     System.out.println();
                     kettle.compose(tuned, sign, aeon);
                 }
-                else if (kettle.clefs.get(0).equals("gamut")) {
+                else if (kettle.buffs.get(0).equals("gamut")) {
                     kettle.every(tuned);
                 }
-                else if (kettle.guardian(kettle.clefs.get(0))) {
+                else if (kettle.guardian(kettle.buffs.get(0))) {
                     kettle.dashboard();
                 }
                 else {
-                    flaw = kettle.clefs.get(0);
+                    flaw = kettle.buffs.get(0);
 
                     System.out.println(String.format("\n\t%s ?\n", flaw));
                     kettle.stockpile();
                     System.out.println();
                 }
             }
-            else if (kettle.clefs.size() == 2) {
-                if (kettle.sentinel(kettle.clefs.get(0)) &&
-                    kettle.sentinel(kettle.clefs.get(1))) {
+            else if (kettle.buffs.size() == 2) {
+                if (kettle.sentinel(kettle.buffs.get(0)) &&
+                    kettle.sentinel(kettle.buffs.get(1))) {
                     System.out.println();
-                    for (String clef : kettle.clefs) {
+                    for (String clef : kettle.buffs) {
                         kettle.compose(tuned, clef, aeon);
                     }
                 }
-                else if (kettle.guardian(kettle.clefs.get(0)) &&
-                    kettle.sentinel(kettle.clefs.get(1))) {
-                    tuned = kettle.stockade(kettle.clefs.get(0));
-                    sign = kettle.clefs.get(1);
+                else if (kettle.guardian(kettle.buffs.get(0)) &&
+                    kettle.sentinel(kettle.buffs.get(1))) {
+                    tuned = kettle.stockade(kettle.buffs.get(0));
+                    sign = kettle.buffs.get(1);
 
                     System.out.println();
                     kettle.compose(tuned, sign, aeon);
                 }
-                else if (kettle.guardian(kettle.clefs.get(0)) &&
-                    kettle.clefs.get(1).equals("gamut")) {
-                    tuned = kettle.stockade(kettle.clefs.get(0));
+                else if (kettle.guardian(kettle.buffs.get(0)) &&
+                    ! kettle.sentinel(kettle.buffs.get(1))) {
+                    kettle.dashboard();
+                }
+                else if (kettle.guardian(kettle.buffs.get(0)) &&
+                    kettle.buffs.get(1).equals("gamut")) {
+                    tuned = kettle.stockade(kettle.buffs.get(0));
 
                     kettle.every(tuned);
                 }
-                else if (kettle.clefs.get(0).equals("group")) {
-                    kettle.regroup(kettle.clefs.get(1));
+                else if (kettle.buffs.get(0).equals("group")) {
+                    kettle.regroup(kettle.buffs.get(1));
                 }
-                else if (kettle.clefs.get(0).equals("query")) {
-                    kettle.request(kettle.clefs.get(1));
+                else if (kettle.buffs.get(0).equals("query")) {
+                    kettle.request(kettle.buffs.get(1));
                 }
                 else {
-                    flaw = kettle.clefs.get(0);
+                    flaw = kettle.buffs.get(0);
 
                     System.out.println(String.format("\n\t%s ?\n", flaw));
                     kettle.stockpile();
@@ -84,24 +88,24 @@ class Vestibule {
                 }
             }
             else {
-                if (kettle.sentinel(kettle.clefs.get(0))) {
+                if (kettle.sentinel(kettle.buffs.get(0))) {
                     System.out.println();
-                    for (String clef : kettle.clefs) {
+                    for (String clef : kettle.buffs) {
                         kettle.compose(tuned, clef, aeon);
                     }
                 }
-                else if (kettle.guardian(kettle.clefs.get(0))) {
-                    tuned = kettle.stockade(kettle.clefs.get(0));
+                else if (kettle.guardian(kettle.buffs.get(0))) {
+                    tuned = kettle.stockade(kettle.buffs.get(0));
 
                     System.out.println();
-                    for (int niter = 1; niter < kettle.clefs.size(); niter++) {
-                        sign = kettle.clefs.get(niter);
+                    for (int niter = 1; niter < kettle.buffs.size(); niter++) {
+                        sign = kettle.buffs.get(niter);
 
                         kettle.compose(tuned, sign, aeon);
                     }
                 }
                 else {
-                    flaw = kettle.clefs.get(0);
+                    flaw = kettle.buffs.get(0);
 
                     System.out.println(String.format("\n\t%s ?\n", flaw));
                     kettle.stockpile();
@@ -109,7 +113,7 @@ class Vestibule {
                 }
             }
 
-            kettle.clefs.clear();
+            kettle.buffs.clear();
         }
         else {
             kettle.dashboard();

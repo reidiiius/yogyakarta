@@ -7,7 +7,7 @@ import java.util.TreeMap;
 /**
  * Chequered Notation
  *
- * @version 1676611949
+ * @version 1676664435
  * @author Reid Netterville III
  */
 public class Metallophone {
@@ -20,7 +20,7 @@ public class Metallophone {
     /**
      * Buffer for argument tokens.
      */
-    ArrayList<String> clefs = new ArrayList<String>();
+    ArrayList<String> buffs = new ArrayList<String>();
 
     /**
      * Map of key accidentals to tonal sequence values.
@@ -89,9 +89,22 @@ public class Metallophone {
     };
 
     /**
-     * Populates instance.
+     * Initializes entries for scales.
      */
     public Metallophone() {
+        populateDataBank();
+    }
+
+    /**
+     * Initializes entries for scales and value of dyadic.
+     *
+     * @param dyadic toggle switch
+     * @see translate
+     * @see regroup
+     */
+    public Metallophone(boolean dyadic) {
+        this.dyadic = dyadic;
+
         populateDataBank();
     }
 
@@ -120,13 +133,15 @@ public class Metallophone {
      *
      * @param strum character sequence
      * @return valid instrument tuning
+     * @throws ArrayIndexOutOfBoundsException
      */
     public String stockade(String strum) {
-        String tuned = tunings[0];
+        String[] cords = getTunings();
+        String tuned = cords[0];
         short count = 0;
 
-        while (count < tunings.length) {
-            if (strum.equals(tunings[count])) {
+        while (count < cords.length) {
+            if (strum.equals(cords[count])) {
                 tuned = strum;
 
                 break;
@@ -146,7 +161,7 @@ public class Metallophone {
     public boolean guardian(String strum) {
         boolean flag = false;
 
-        for (String item : tunings) {
+        for (String item : getTunings()) {
             if (strum.equals(item)) {
                 flag = true;
                 break;
@@ -269,19 +284,19 @@ public class Metallophone {
     }
 
     /**
-     * Pass copy of clefs to tabulate then clear clefs.
+     * Pass copy of buffs to tabulate then clear buffs.
      */
     public void apprisal() {
-        if (clefs.isEmpty()) {
+        if (buffs.isEmpty()) {
             System.out.println("\n\tNothing matched!\n");
         }
         else {
-            String[] signs = new String[clefs.size()];
+            String[] signs = new String[buffs.size()];
 
-            tabulate(clefs.toArray(signs));
+            tabulate(buffs.toArray(signs));
         }
 
-        clefs.clear();
+        buffs.clear();
     }
 
     /**
@@ -293,7 +308,7 @@ public class Metallophone {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
         String brief;
 
-        clefs.clear();
+        buffs.clear();
         for (String sign : scales.keySet()) {
             brief = getScale(sign);
 
@@ -302,7 +317,7 @@ public class Metallophone {
             }
 
             if (Pattern.matches(kinda, brief)) {
-                clefs.add(sign);
+                buffs.add(sign);
             }
         }
 
@@ -317,10 +332,10 @@ public class Metallophone {
     public void request(String expo) {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
 
-        clefs.clear();
+        buffs.clear();
         for (String sign : scales.keySet()) {
             if (Pattern.matches(kinda, sign)) {
-                clefs.add(sign);
+                buffs.add(sign);
             }
         }
 
