@@ -7,7 +7,7 @@ import java.util.TreeMap;
 /**
  * Chequered Notation
  *
- * @version 1676531466
+ * @version 1676611949
  * @author Reid Netterville III
  */
 public class Metallophone {
@@ -96,7 +96,7 @@ public class Metallophone {
     }
 
     /**
-     * Clones a copy of tunings.
+     * Clones and returns copy of tunings.
      *
      * @return Array of instrument tunings
      */
@@ -104,6 +104,15 @@ public class Metallophone {
         String[] cords = tunings.clone();
 
         return cords;
+    }
+
+    /**
+     * Printout members of tunings columned.
+     */
+    public void stockpile() {
+        for (String item : getTunings()) {
+            System.out.println("\t" + item);
+        }
     }
 
     /**

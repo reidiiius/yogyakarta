@@ -4,6 +4,8 @@ class Vestibule {
 
     static Metallophone kettle = new Metallophone();
 
+    final static String[] stocks = kettle.getTunings();
+
     public static void main(String[] args) {
         kettle.dyadic = true;
         kettle.scales.put("i0", "____ ".repeat(12));
@@ -12,7 +14,7 @@ class Vestibule {
             System.err.println("Request denied: Excessive arguments!");
         }
         else if (args.length > 0) {
-            String flaw, sign, tuned;
+            String flaw, sign, tuned = stocks[0];
             long aeon = kettle.horoLog();
             int span, limit = 9;
 
@@ -26,15 +28,12 @@ class Vestibule {
 
             if (kettle.clefs.size() == 1) {
                 if (kettle.sentinel(kettle.clefs.get(0))) {
-                    tuned = kettle.tunings[0];
                     sign = kettle.clefs.get(0);
 
                     System.out.println();
                     kettle.compose(tuned, sign, aeon);
                 }
                 else if (kettle.clefs.get(0).equals("gamut")) {
-                    tuned = kettle.tunings[0];
-
                     kettle.every(tuned);
                 }
                 else if (kettle.guardian(kettle.clefs.get(0))) {
@@ -44,17 +43,13 @@ class Vestibule {
                     flaw = kettle.clefs.get(0);
 
                     System.out.println(String.format("\n\t%s ?\n", flaw));
-                    for (String item : kettle.tunings) {
-                       System.out.println(String.format("\t%s", item));
-                    }
+                    kettle.stockpile();
                     System.out.println();
                 }
             }
             else if (kettle.clefs.size() == 2) {
                 if (kettle.sentinel(kettle.clefs.get(0)) &&
                     kettle.sentinel(kettle.clefs.get(1))) {
-                    tuned = kettle.tunings[0];
-
                     System.out.println();
                     for (String clef : kettle.clefs) {
                         kettle.compose(tuned, clef, aeon);
@@ -84,16 +79,12 @@ class Vestibule {
                     flaw = kettle.clefs.get(0);
 
                     System.out.println(String.format("\n\t%s ?\n", flaw));
-                    for (String item : kettle.tunings) {
-                       System.out.println(String.format("\t%s", item));
-                    }
+                    kettle.stockpile();
                     System.out.println();
                 }
             }
             else {
                 if (kettle.sentinel(kettle.clefs.get(0))) {
-                    tuned = kettle.tunings[0];
-
                     System.out.println();
                     for (String clef : kettle.clefs) {
                         kettle.compose(tuned, clef, aeon);
@@ -113,9 +104,7 @@ class Vestibule {
                     flaw = kettle.clefs.get(0);
 
                     System.out.println(String.format("\n\t%s ?\n", flaw));
-                    for (String item : kettle.tunings) {
-                       System.out.println(String.format("\t%s", item));
-                    }
+                    kettle.stockpile();
                     System.out.println();
                 }
             }

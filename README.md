@@ -64,6 +64,10 @@ REPL
 
 :
 
+    o.stockpile();
+
+:
+
     var aeon = o.horoLog();
 
 :
