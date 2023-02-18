@@ -64,14 +64,14 @@ class Vestibule {
                     kettle.compose(tuned, sign, aeon);
                 }
                 else if (kettle.guardian(kettle.buffs.get(0)) &&
-                    ! kettle.sentinel(kettle.buffs.get(1))) {
-                    kettle.dashboard();
-                }
-                else if (kettle.guardian(kettle.buffs.get(0)) &&
                     kettle.buffs.get(1).equals("gamut")) {
                     tuned = kettle.stockade(kettle.buffs.get(0));
 
                     kettle.every(tuned);
+                }
+                else if (kettle.guardian(kettle.buffs.get(0)) &&
+                    ! kettle.sentinel(kettle.buffs.get(1))) {
+                    kettle.dashboard();
                 }
                 else if (kettle.buffs.get(0).equals("group")) {
                     kettle.regroup(kettle.buffs.get(1));

@@ -7,7 +7,7 @@ import java.util.TreeMap;
 /**
  * Chequered Notation
  *
- * @version 1676664435
+ * @version 1676700150
  * @author Reid Netterville III
  */
 public class Metallophone {
@@ -73,23 +73,25 @@ public class Metallophone {
     /**
      * Array of instrument tunings.
      */
-    String[] tunings = stones.keySet().toArray(new String[stones.size()]);
+    final String[] tunings = stones.keySet().toArray(new String[stones.size()]);
 
     /**
      * Arrays of tonal veils.
      */
-    String[] metals = {
+    final String[] metals = {
       "Ti","Mn","Fe","Cu","Ag","Sn","Au","Hg","Pb","Ur","Np","Pu","____"
     };
-    String[] charms = {
+    final String[] charms = {
        "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "__"
     };
-    String[] arcane = {
+    final String[] arcane = {
        "2", "3", "4", "5", "6", "7", "8", "9", "N", "P", "Q", "R", "__"
     };
 
     /**
      * Initializes entries for scales.
+     *
+     * @see populateDataBank
      */
     public Metallophone() {
         populateDataBank();
@@ -99,8 +101,9 @@ public class Metallophone {
      * Initializes entries for scales and value of dyadic.
      *
      * @param dyadic toggle switch
-     * @see translate
-     * @see regroup
+     *
+     * @see dyadic
+     * @see populateDataBank
      */
     public Metallophone(boolean dyadic) {
         this.dyadic = dyadic;
@@ -121,6 +124,8 @@ public class Metallophone {
 
     /**
      * Printout members of tunings columned.
+     *
+     * @see getTunings
      */
     public void stockpile() {
         for (String item : getTunings()) {
@@ -134,6 +139,8 @@ public class Metallophone {
      * @param strum character sequence
      * @return valid instrument tuning
      * @throws ArrayIndexOutOfBoundsException
+     *
+     * @see getTunings
      */
     public String stockade(String strum) {
         String[] cords = getTunings();
@@ -157,6 +164,8 @@ public class Metallophone {
      *
      * @param strum character sequence
      * @return true if sequence is tunings member
+     *
+     * @see getTunings
      */
     public boolean guardian(String strum) {
         boolean flag = false;
@@ -242,6 +251,9 @@ public class Metallophone {
 
     /**
      * Acquire scales keys to be formatted into columns.
+     *
+     * @see getTunings
+     * @see tabulate
      */
     public void dashboard() {
         if (scales.size() > 0) {
@@ -266,14 +278,18 @@ public class Metallophone {
      *
      * @param yarn character sequence
      * @return character sequence
+     *
+     * @see dyadic
      */
     public String translate(String yarn) {
         if (dyadic) {
-            if (metals.length == charms.length) {
+            String[] refers = charms;
+
+            if (metals.length == refers.length) {
                 char niter = 0;
 
                 while (niter < metals.length) {
-                    yarn = yarn.replace(metals[niter], charms[niter]);
+                    yarn = yarn.replace(metals[niter], refers[niter]);
 
                     niter++;
                 }
@@ -285,6 +301,8 @@ public class Metallophone {
 
     /**
      * Pass copy of buffs to tabulate then clear buffs.
+     *
+     * @see tabulate
      */
     public void apprisal() {
         if (buffs.isEmpty()) {
@@ -303,6 +321,11 @@ public class Metallophone {
      * Research scales values.
      *
      * @param expo comparison token
+     *
+     * @see getScale
+     * @see dyadic
+     * @see translate
+     * @see apprisal
      */
     public void regroup(String expo) {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
@@ -328,6 +351,8 @@ public class Metallophone {
      * Research scales keys.
      *
      * @param expo comparison token
+     *
+     * @see apprisal
      */
     public void request(String expo) {
         String kinda = String.format("%s%s%s", "^.*", expo, ".*$");
@@ -347,6 +372,8 @@ public class Metallophone {
      *
      * @param diadem matrix headline
      * @param pegbox instrument courses
+     *
+     * @see translate
      */
     public void fingerboard(String diadem, String[] pegbox) {
         System.out.print(String.format("\t%s\n", diadem));
@@ -391,6 +418,11 @@ public class Metallophone {
      * @param tuned instrument tuning
      * @param sign accidentals
      * @param aeon epochal metric
+     *
+     * @see getScale
+     * @see stockade
+     * @see machine
+     * @see fingerboard
      */
     public void compose(String tuned, String sign, long aeon) {
         String flaw, wire = getScale(sign);
@@ -421,6 +453,9 @@ public class Metallophone {
      * Pass all scales entries to compose for processing.
      *
      * @param tuned instrument tuning
+     *
+     * @see horoLog
+     * @see compose
      */
     public void every(String tuned) {
         long aeon = horoLog();
